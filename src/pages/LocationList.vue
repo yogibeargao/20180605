@@ -47,7 +47,7 @@ export default {
   },
   methods:{
     async updateStatus(item){
-     const changeStatus = await this.$http.post(`/online/signin/unwanted`,[item.id]);
+     const changeStatus = await this.$http.post(`online/signin/unwanted`,[item.id]);
             if(changeStatus.body){
                                   ConfirmApi.show(this,{
                                   title: '',
