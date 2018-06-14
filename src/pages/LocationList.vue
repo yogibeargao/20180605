@@ -27,7 +27,7 @@ export default {
     return {
        condition:{},
        status:null,
-       options: [{ key: 0, value: "未签到" }, { key: 1, value: "已签到" }],
+       options: [{ key: 0, value: "未签到" }, { key: 1, value: "已签到" }, {key: 2, value: "无需签到" }],
         data:{
         "head":[
           [{'text':'姓名'},{'text':'位置'},{'text':'时间'}]
@@ -47,7 +47,8 @@ export default {
   },
   methods:{
     async updateStatus(item){
-     const changeStatus = await this.$http.post(`online/signin/unwanted`,[item.id]);
+     const url = "online/signin/unwanted?id="+item.id;
+     const changeStatus = await this.$http.get(url);
             if(changeStatus.body){
                                   ConfirmApi.show(this,{
                                   title: '',
@@ -64,7 +65,7 @@ export default {
       this.$router.back();
    },
    async search(condition){
-                  if(condition==0||condition==1){
+                  if(condition === 0 || condition === 1 || condition === 2){
                       this.condition.status = condition;
                   }
                   const identityId = Util.getIdentityId(this);
@@ -72,7 +73,15 @@ export default {
                   const status = await this.$http.post(`online/signin/list`,param);
                   const status_data = [];
                   _.each(status.body,(student,index)=>{
-                      status_data.push([{'text':student.studentName},{'id':student.id,'text':student.signAddress?student.signAddress:'未签到',"onClick":this.updateStatus},{'text':student.signDate?student.signDate.substring(11,16):''}])
+                      var addressStr = {};
+                      if(student.attendance === '1'){
+                          addressStr = {'text':student.signAddress};
+                      }else if(student.attendance === '2'){
+                          addressStr = {'text':'无需签到'};
+                      }else if(student.attendance === '0'){
+                          addressStr = {'id':student.id,'text':'未签到',"onClick":this.updateStatus};
+                      }
+                      status_data.push([{'text':student.studentName}, addressStr ,{'text':student.signDate?student.signDate.substring(11,16):''}])
                   })
                   this.data.body = status_data;
           }
