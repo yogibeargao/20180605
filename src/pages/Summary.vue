@@ -74,8 +74,7 @@ export default {
     };
   },
   methods: {
-      async download(){
-        
+      async download() {
         window.location.href=Vue.http.options.root+"/intern/summary/template/download";
       },
       async customAction(file, component){
