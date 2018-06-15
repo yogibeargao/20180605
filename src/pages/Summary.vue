@@ -24,7 +24,7 @@
       <div class="example-btn">
         <file-upload
           class="btn btn-primary"
-          :multiple="false"
+          :multiple="true"
           :size="1024 * 1024 * 10"
           v-model="files"
           name="file" 
@@ -81,11 +81,11 @@ export default {
       async customAction(file, component){
        const self = this;
        const formData = new FormData();
-      formData.append('file', file.file);
+      formData.append('files', file.file);
       if(this.id){
         formData.append('summaryId', this.id);
       }
-      return await self.$http.post(`intern/summary/upload?filename=${file.name}`,formData);
+      return await self.$http.post(`intern/summary/upload`,formData);
     },
    inputFilter(newFile, oldFile, prevent) {
       if (newFile && !oldFile) {
