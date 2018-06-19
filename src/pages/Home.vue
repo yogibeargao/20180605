@@ -102,7 +102,7 @@ export default {
                   const leave = await this.$http.get(leave_url);
                   this.cardList=[
                     { 'link': '/notes', 'number': article.body,'text': '实习公告' },
-                    { 'link': '/notes?type=message', 'number': message.body,'text': '实习消息' },
+                    { 'link': '/notes?type=message', 'number': message.body,'text': '实习消息' }
                     //,{ 'link': '/share', 'number': location.body,'text': '共享消息' }
                     //{ 'link': '/ill/list', 'number': leave.body,'text': '请假申请' },
                   ]
@@ -118,7 +118,7 @@ export default {
                   const leave = await this.$http.get(leave_url);
                   this.cardList=[
                     { 'link': '/notes', 'number': article.body,'text': '实习公告' },
-                    { 'link': '/notes?type=message', 'number': message.body,'text': '实习消息' },
+                    { 'link': '/notes?type=message', 'number': message.body,'text': '实习消息' }
                     //,{ 'link': '/share', 'number': location.body,'text': '共享消息' }
                     //{ 'link': '/ill/list', 'number': leave.body,'text': '请假申请' },
                   ]

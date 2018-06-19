@@ -2,9 +2,12 @@
   <r-page>
       <top title="实习总结评价" :showBack="true"/>
       <r-body>
-             <r-input title="专业学习情况分:"  placeholder="最高15分" :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_score_1" :isNumber="true"/>
-             <r-input title="顶岗实习小结分:"  placeholder="最高20分" :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_score_2" :isNumber="true"/>
-             <r-textarea title="评价:" :readonly="!isShow"  :model="this" value="comments" :height="600" :max="600"></r-textarea>
+             <r-card title="实习报告表："  :list="fileListData" />
+             <r-card title="成绩评定表：">
+                <r-input title="专业学习情况分:"  placeholder="最高15分" :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_score_1" :isNumber="true"/>
+                <r-input title="顶岗实习小结分:"  placeholder="最高20分" :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_score_2" :isNumber="true"/>
+                <r-textarea title="评价:" :readonly="!isShow"  :model="this" value="comments" :height="600" :max="600"></r-textarea>
+             </r-card>
       </r-body>
 
              <r-tab-bar>
@@ -21,7 +24,7 @@
                                 </r-cell>
                                  <r-cell >
                                   <r-box>
-                                      <r-button :onClick="download">下载实习报告</r-button>
+                                      <r-button :onClick="download">下载全部实习报告</r-button>
                                   </r-box>
                                 </r-cell>
                     </r-cell>
@@ -42,7 +45,8 @@ export default {
       v_score_1:null,
       v_score_2:null,
       state:null,
-      isShow:false
+      isShow:false,
+      fileListData: []
     };
   },
   methods: {
@@ -125,11 +129,24 @@ export default {
                   const url = "intern/summary/detail?summaryId="+id;
                   const temp_record = await this.$http.get(url);
                   if(temp_record.body){
-                    this.comments = temp_record.body.comments;
-                    this.score = temp_record.body.score1;
-                    this.v_score_1 = temp_record.body.score1;
-                    this.v_score_2 = temp_record.body.score2;
-                    this.state = temp_record.body.state;
+                      this.comments = temp_record.body.comments;
+                      this.score = temp_record.body.score1;
+                      this.v_score_1 = temp_record.body.score1;
+                      this.v_score_2 = temp_record.body.score2;
+                      this.state = temp_record.body.state;
+                      this.fileList = temp_record.body.fileList;
+
+                      const files_data = [{'text':'一月份实习报告一月份实习报告.doc','link': temp_record.body.documentPath},{'text':'一月份实习报告.doc','link': temp_record.body.documentPath}];
+                      this.fileListData = files_data;
+
+                      //const files_data = [];
+                      if(this.fileList){
+                          _.each(this.fileList,(fileInfo,index)=>{
+                              files_data.push({'text':fileInfo.fileName,'link': Vue.http.options.root+'/intern/summary/download?fileId='+id});
+                          });
+                          this.fileListData = files_data;
+                      }
+                
                   }
           }
   

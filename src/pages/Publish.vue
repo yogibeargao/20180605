@@ -4,7 +4,7 @@
       <r-body>
               <r-card>
                   <r-selector title="发布对象" :options="_target" :model="this.publish" value="target"  ></r-selector>
-                  <r-row title="班级" :model="this" value="v_classes"  :onClick="showClass" :isLink="true" v-if="this.publish.target==3"></</r-row>
+                  <r-row title="班级" :model="this" value="v_classes"  :onClick="showClass" :isLink="true" v-if="this.publish.target==3"></r-row>
                   <r-selector v-if="_source" title="发布源" :options="source" :model="this.publish" value="source"  ></r-selector>
               </r-card>
               

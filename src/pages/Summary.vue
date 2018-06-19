@@ -2,7 +2,8 @@
   <r-page>
       <top title="实习总结" :showBack="true"/>
       <r-body>
-             <r-input title="分数:" :readonly="true"   :max="100" :min="0"  :model="this" value="score" :isNumber="true"/>
+             <r-input title="专业学习情况分:"   :readonly="true"   :max="100" :min="0"  :model="this" value="score_1" :isNumber="true"/>
+             <r-input title="顶岗实习小结分:"   :readonly="true"   :max="100" :min="0"  :model="this" value="score_2" :isNumber="true"/>
              <r-textarea title="评价:" :readonly="true"   :model="this" value="comments" :height="600" :max="600"></r-textarea>
        </r-body>
              <r-tab-bar v-if="!score">
@@ -123,7 +124,9 @@ export default {
                   console.log(temp_record)
                   if(temp_record.body){
                     this.comments = temp_record.body.comments;
-                    this.score = temp_record.body.score;
+                    //this.score = temp_record.body.score;
+                    this.score_1 = temp_record.body.score1;
+                    this.score_2 = temp_record.body.score2;
                     this.id = temp_record.body.id;
                   }
   },
