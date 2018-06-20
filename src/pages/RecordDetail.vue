@@ -2,14 +2,18 @@
   <r-page>
       <top title="记录详情" :showBack="true"/>
       <r-body>
-              <r-card>
+              <r-card   title="实习记录信息：">
                   <r-date-time :readonly="isreadonly"  title='开始时间' format="YYYY-MM-DD HH:mm" :model="this.record" value="startDateStr" :minuteList="['00', '15', '30', '45']"></r-date-time>
                   <r-date-time  :readonly="isreadonly" title='结束时间' format="YYYY-MM-DD HH:mm" :model="this.record" value="endDateStr"  :minuteList="['00', '15', '30', '45']"></r-date-time>
-              </r-card>
-              <r-card>
+
                   <r-textarea title='实习描述:' :readonly="isreadonly" placeholder="请在这里输入实习描述" :model="this.record" value="internDescription" :height="200" :max="200"></r-textarea>
               </r-card>
-                <r-card v-if='!isStudent||!isEdit'>
+                <r-card v-if='!isStudent||!isEdit'   title="实习记录评价打分：">
+                  <r-input title="职业道德分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_score_1" :isNumber="true"/>
+                  <r-input title="执行制度遵守纪律情况分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_score_2" :isNumber="true"/>
+                  <r-input title="实习工作态度分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_score_3" :isNumber="true"/>
+                  <r-input title="专业业务能力分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_score_4" :isNumber="true"/>
+                  <r-input title="工作实绩分:"  placeholder="最高7分"  :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_score_5" :isNumber="true"/>
                   <r-textarea title='实习评价:'  :readonly="isreadonly"  :model="this.record" value="appraisalContent"  :autoSize="true" :rows="10" :max="200"></r-textarea>
               </r-card>
       </r-body>
@@ -29,6 +33,7 @@
 
 <script>
 import Util from "../util/util";
+import {ConfirmApi } from "rainbow-mobile-core";
 
 export default {
 
@@ -52,12 +57,83 @@ export default {
                   this.record["studentNo"]= identityId;
                   this.record.startDateStr = this.record.startDateStr+":00";
                   this.record.endDateStr = this.record.endDateStr+":00";
-                   temp_record = await this.$http.post(url,this.record);
+                  temp_record = await this.$http.post(url,this.record);
         }else{
-                   const id = this.$route.query.id+"";
+                   
 
-                   const url = "intern/detail/appraisal/create?internDetailId="+id+"&comments="+this.record.appraisalContent;
-                   temp_record = await this.$http.post(url);
+                    if(!this.record.v_score_1){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '请输入职业道德分'
+                      });
+                    }else if(this.record.v_score_1 > 7 || this.record.v_score_1 < 0){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '职业道德分数<br/>评分规则为[0-7分]！'
+                      });
+                    }else if(!this.record.v_score_2){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '请输入执行制度遵守纪律情况分'
+                      });
+                    }else if(this.record.v_score_2 > 7 || this.record.v_score_1 < 0){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '执行制度遵守纪律情况分数<br/>评分规则为[0-7分]！'
+                      });
+                    }else if(!this.record.v_score_3){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '请输入实习工作态度分'
+                      });
+                    }else if(this.record.v_score_3 > 7 || this.record.v_score_3 < 0){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '实习工作态度分数<br/>评分规则为[0-7分]！'
+                      });
+                    }else if(!this.record.v_score_4){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '请输入专业业务能力分'
+                      });
+                    }else if(this.record.v_score_4 > 7 || this.record.v_score_4 < 0){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '专业业务能力分数<br/>评分规则为[0-7分]！'
+                      });
+                    }else if(!this.record.v_score_5){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '请输入工作实绩分'
+                      });
+                    }else if(this.record.v_score_5 > 7 || this.record.v_score_5 < 0){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '工作实绩分数<br/>评分规则为[0-7分]！'
+                      });
+                    }else if(!this.record.appraisalContent){
+                      ConfirmApi.show(this,{
+                            title: '',
+                            content: '请输入实习评价'
+                      });
+
+                    }else{
+
+                         const id = this.$route.query.id+"";
+
+                        const score_1 = "&score1=" + this.record.v_score_1;
+                        const score_2 = "&score2=" + this.record.v_score_2;
+                        const score_3 = "&score3=" + this.record.v_score_3;
+                        const score_4 = "&score4=" + this.record.v_score_4;
+                        const score_5 = "&score5=" + this.record.v_score_5;
+
+                        const comemnt_s = "&comments=" + this.record.appraisalContent;
+
+                        const recordParam = score_1 + score_2 + score_3 + score_4 + score_5 + comemnt_s;
+
+                        const url = "intern/detail/appraisal/create?internDetailId="+ id + recordParam;
+                        temp_record = await this.$http.post(url);
+                    }
         }
 
                

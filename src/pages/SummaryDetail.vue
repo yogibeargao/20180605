@@ -2,7 +2,9 @@
   <r-page>
       <top title="实习总结评价" :showBack="true"/>
       <r-body>
-             <r-card title="实习报告表："  :list="fileListData" />
+             <r-card title="实习报告表：">
+                <r-panel :data="fileListData" type='3'/>
+             </r-card>
              <r-card title="成绩评定表：">
                 <r-input title="专业学习情况分:"  placeholder="最高15分" :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_score_1" :isNumber="true"/>
                 <r-input title="顶岗实习小结分:"  placeholder="最高20分" :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_score_2" :isNumber="true"/>
@@ -134,17 +136,19 @@ export default {
                       this.v_score_1 = temp_record.body.score1;
                       this.v_score_2 = temp_record.body.score2;
                       this.state = temp_record.body.state;
-                      this.fileList = temp_record.body.fileList;
+                      //this.fileList = temp_record.body.fileList;
 
-                      const files_data = [{'text':'一月份实习报告一月份实习报告.doc','link': temp_record.body.documentPath},{'text':'一月份实习报告.doc','link': temp_record.body.documentPath}];
-                      this.fileListData = files_data;
-
-                      //const files_data = [];
+                      this.fileList = [{'fileName':'一月份实习报告一月份实习报告.doc','fileId': 11},{'fileName':'一月份实习报告.doc','fileId': 12},{'fileName':'一月份实习报告.doc','fileId': 13}];
                       if(this.fileList){
-                          _.each(this.fileList,(fileInfo,index)=>{
-                              files_data.push({'text':fileInfo.fileName,'link': Vue.http.options.root+'/intern/summary/download?fileId='+id});
-                          });
-                          this.fileListData = files_data;
+                            const files_data = [];
+                             _.each(this.fileList,(fileInfo,index)=>{
+                                const _file = {};
+                                _file["id"] = fileInfo.fileId;
+                                _file["title"] = fileInfo.fileName;
+                                _file["url"] = Vue.http.options.root+'/intern/summary/download?fileId=' + _file.id;
+                                files_data.push(_file);
+                            });
+                            this.fileListData = files_data;
                       }
                 
                   }
