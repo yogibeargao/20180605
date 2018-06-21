@@ -119,20 +119,25 @@ export default {
 
                     }else{
 
-                         const id = this.$route.query.id+"";
+                        const id = this.$route.query.id+"";
 
-                        const score_1 = "&score1=" + this.record.v_score_1;
-                        const score_2 = "&score2=" + this.record.v_score_2;
-                        const score_3 = "&score3=" + this.record.v_score_3;
-                        const score_4 = "&score4=" + this.record.v_score_4;
-                        const score_5 = "&score5=" + this.record.v_score_5;
+                        const url = "intern/detail/appraisal/create?internDetailId="+ id;
+                        let param = {"comments":this.record.appraisalContent,"score1":this.record.v_score_1,"score2":this.record.v_score_2,"score3":this.record.v_score_3,"score4":this.record.v_score_4,"score5":this.record.v_score_5};
+                        temp_record = await this.$http.post(url,param);
+                         
 
-                        const comemnt_s = "&comments=" + this.record.appraisalContent;
+                       /*  var score_1 = "&score1=" + this.record.v_score_1;
+                        var score_2 = "&score2=" + this.record.v_score_2;
+                        var score_3 = "&score3=" + this.record.v_score_3;
+                        var score_4 = "&score4=" + this.record.v_score_4;
+                        var score_5 = "&score5=" + this.record.v_score_5;
 
-                        const recordParam = score_1 + score_2 + score_3 + score_4 + score_5 + comemnt_s;
+                        var comemnt_s = "&comments=" + this.record.appraisalContent;
+
+                        let recordParam = score_1 + score_2 + score_3 + score_4 + score_5 + comemnt_s;
 
                         const url = "intern/detail/appraisal/create?internDetailId="+ id + recordParam;
-                        temp_record = await this.$http.post(url);
+                        temp_record = await this.$http.post(url); */
                     }
         }
 

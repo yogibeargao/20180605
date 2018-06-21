@@ -8,7 +8,7 @@
              <r-card title="成绩评定表：">
                 <r-input title="专业学习情况分:"  placeholder="最高15分" :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_score_1" :isNumber="true"/>
                 <r-input title="顶岗实习小结分:"  placeholder="最高20分" :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_score_2" :isNumber="true"/>
-                <r-textarea title="评价:" :readonly="!isShow"  :model="this" value="comments" :height="600" :max="600"></r-textarea>
+                <r-textarea title="评价:" :readonly="!isShow"  :model="this" value="comments" :height="200" :max="600"></r-textarea>
              </r-card>
       </r-body>
 
