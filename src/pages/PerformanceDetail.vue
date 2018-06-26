@@ -1,6 +1,6 @@
 <template>
   <r-page>
-      <top title="实习评价详情" :showBack="true"/>
+      <top title="导员考核详情" :showBack="true"/>
         <r-body>
 
             <r-card title="实习表现：">
@@ -8,7 +8,7 @@
                 <div id="perform" style="width: 100%; height:265px;"></div>
             </r-card>
             
-            <r-card title="实习评价:">
+            <r-card title="导员考核:">
                 <r-input title="实习出勤分"   placeholder="最高15分"  :max="100" :min="0"  :model="this" value="v_score_1" :isNumber="true"/>
                 <r-input title="实习材料提交分"   placeholder="最高15分"  :max="100" :min="0"  :model="this" value="v_score_2" :isNumber="true"/>
                 <r-textarea placeholder="请输入评价"  :model="this" value="comments" :height="200" :max="600"></r-textarea>
@@ -128,8 +128,8 @@ export default {
 
                     this.performInfo = performInfoTemp;
 
-                    let dayStr1 = '出勤天数: ' + temp_attend.body.attendaceDays + '天，病假天数' +  temp_attend.body.sickLeaveDays + '天';
-                    let dayStr2 = '<br/>事假天数' + temp_attend.body.personalDays + '天，旷工天数' + temp_attend.body.absenteeismDays + '天';
+                    let dayStr1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#CA8EFF">出勤天数: ' + temp_attend.body.attendaceDays + '天；</font><font color="#7D7DFF">病假天数: ' +  temp_attend.body.sickLeaveDays + '天；</font>';
+                    let dayStr2 = '<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66B3FF">事假天数: ' + temp_attend.body.personalDays + '天；</font><font color="#0072E3">旷工天数: ' + temp_attend.body.absenteeismDays + '天；</font>';
                     document.getElementById('daysStr').innerHTML =  dayStr1 + dayStr2;
                   }
           }

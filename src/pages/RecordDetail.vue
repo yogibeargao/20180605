@@ -8,7 +8,7 @@
 
                   <r-textarea title='实习描述:' :readonly="isreadonly" placeholder="请在这里输入实习描述" :model="this.record" value="internDescription" :height="200" :max="200"></r-textarea>
               </r-card>
-                <r-card v-if='!isStudent||!isEdit'   title="实习记录评价打分：">
+                <r-card v-if='!isStudent || !isEdit'   title="实习记录打分：">
                   <r-input title="职业道德分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_score_1" :isNumber="true"/>
                   <r-input title="执行制度遵守纪律情况分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_score_2" :isNumber="true"/>
                   <r-input title="实习工作态度分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_score_3" :isNumber="true"/>
@@ -173,7 +173,7 @@ export default {
       return Util.isStudent(this);
       },
       isreadonly(){
-        return this.state==1?true:false;
+        return this.state===1?true:false;
       },
       isEdit(){
         const id = this.$route.query.id;
