@@ -1,11 +1,34 @@
 <template>
   <r-page>
-      <top title="实习评价" :showBack="true"/>
+      <top title="实习成绩" :showBack="true"/>
       <r-body>
-            <r-input title="分数" :required="true" :max="100" :min="0"  :model="this" value="schoolScore" :isNumber="true"/>
-             <r-textarea placeholder="请输入评价" :model="this" value="comments" :height="600" :max="600"></r-textarea>
+           <!--  <r-input title="分数" :required="true" :max="100" :min="0"  :model="this" value="schoolScore" :isNumber="true"/>
+            <r-textarea placeholder="请输入评价" :model="this" value="comments" :height="600" :max="600"></r-textarea> -->
+
+             <r-card title="辅导员考核：">
+                  <r-input title="实习出勤分:" :readonly="true"  :max="100" :min="0"  :model="this" value="v_fdy_score_1" :isNumber="true"/>
+                  <r-input title="实习材料分:" :readonly="true"  :max="100" :min="0"  :model="this" value="v_fdy_score_2" :isNumber="true"/>
+                  <r-textarea title="评价:" :readonly="true" :model="this" value="comments" :height="150" :max="200"></r-textarea>
+            </r-card>
+
+            <r-card title="学院导师考核：">
+                <r-input title="专业学习情况分:"  :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_xyds_score_1" :isNumber="true"/>
+                <r-input title="顶岗实习小结分:"  :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_xyds_score_2" :isNumber="true"/>
+                <r-textarea title="评价:" :readonly="!isShow"  :model="this" value="comments" :height="200" :max="200"></r-textarea>
+             </r-card>
+
+
+            <r-card title="企业导师考核：">
+                  <r-input title="职业道德分:"   :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_qyds_score_1" :isNumber="true"/>
+                  <r-input title="执行制度遵守纪律情况分:"   :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_qyds_score_2" :isNumber="true"/>
+                  <r-input title="实习工作态度分:"  :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_qyds_score_3" :isNumber="true"/>
+                  <r-input title="专业业务能力分:"  :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_qyds_score_4" :isNumber="true"/>
+                  <r-input title="工作实绩分:"    :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="v_qyds_score_5" :isNumber="true"/>
+                  <r-textarea title='实习评价:'  :readonly="isreadonly"  :model="this.record" value="appraisalContent"  :autoSize="true" :rows="10" :max="200"></r-textarea>
+            </r-card>
+           
       </r-body>
-             <r-tab-bar v-if="!schoolScore">
+            <!--  <r-tab-bar v-if="!schoolScore">
                   <r-cell type="row" :vertical="true">
                                 <r-cell >
                                   <r-box>
@@ -13,7 +36,7 @@
                                   </r-box>
                                 </r-cell>
                     </r-cell>
-              </r-tab-bar>
+              </r-tab-bar> -->
   </r-page>
 </template>
 
