@@ -122,7 +122,7 @@ export default {
                         const id = this.$route.query.id+"";
 
                         const url = "intern/detail/appraisal/create?internDetailId="+ id;
-                        let param = {"comments":this.record.appraisalContent,"score1":this.record.v_score_1,"score2":this.record.v_score_2,"score3":this.record.v_score_3,"score4":this.record.v_score_4,"score5":this.record.v_score_5};
+                        let param = {"comments":this.record.appraisalContent,"workEthicsScore":this.record.v_score_1,"complianceScore":this.record.v_score_2,"attitudeScore":this.record.v_score_3,"professionalScore":this.record.v_score_4,"performanceScore":this.record.v_score_5};
                         temp_record = await this.$http.post(url,param);
                          
 
@@ -189,6 +189,11 @@ export default {
                     temp_record.body.startDateStr = temp_record.body.startDateStr?temp_record.body.startDateStr.substring(0,16):"";
                     temp_record.body.endDateStr = temp_record.body.endDateStr?temp_record.body.endDateStr.substring(0,16):"";
                     temp_record.body.appraisalContent=temp_record.body.appraisalContent=='null'?'':temp_record.body.appraisalContent;
+                    temp_record.body.v_score_1 = temp_record.body.workEthicsScore ? temp_record.body.workEthicsScore : '';
+                    temp_record.body.v_score_2 = temp_record.body.complianceScore ? temp_record.body.complianceScore : '';
+                    temp_record.body.v_score_3 = temp_record.body.attitudeScore ? temp_record.body.attitudeScore : '';
+                    temp_record.body.v_score_4 = temp_record.body.professionalScore ? temp_record.body.professionalScore : '';
+                    temp_record.body.v_score_5 = temp_record.body.performanceScore ? temp_record.body.performanceScore : '';
                     this.record = temp_record.body;
                     this.signStat = temp_record.body.signStat;
                     this.apprisal = temp_record.body.apprisal;
