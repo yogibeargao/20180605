@@ -137,7 +137,7 @@ export default {
                     if(surveyId){
                         return true;
                     }else{
-                        if(Util.isSchoolTeacher(this)){
+                        if(!Util.isSchoolTeacher(this)){
                             return true;
                         }else{
                             return false;
