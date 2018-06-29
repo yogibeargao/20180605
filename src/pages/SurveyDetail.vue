@@ -98,7 +98,7 @@ export default {
           formData.append('enterpriseName', this.survey.enterpriseName);
           formData.append('surveyComments', this.survey.surveyComments);
       }
-      return await self.$http.post(`intern/student/intern/survery/create`,formData);
+      return await self.$http.post(`intern/student/intern/survey/create`,formData);
     },
    inputFilter(newFile, oldFile, prevent) {
       if (newFile && !oldFile) {
