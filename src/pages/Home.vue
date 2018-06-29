@@ -54,6 +54,7 @@ export default {
         { 'text': '实习评价','code':'sxpj','link':'/performance/List'},
         { 'text': '个人信息','code':'grxx','link':'/personal'},
         { 'text': '修改密码','code':'xgmm','link':'/password'},
+        { 'text': '走访记录','code':'zfjl','link':'/survey/list'},
 
       ]
     };

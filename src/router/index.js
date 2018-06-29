@@ -31,6 +31,8 @@ const Share = r => require.ensure([], () => r(require('@/pages/Share')), 'Share'
 const ShareList = r => require.ensure([], () => r(require('@/pages/ShareList')), 'ShareList');
 const ShareCreate= r => require.ensure([], () => r(require('@/pages/ShareCreate')), 'ShareCreate');
 const PhoneList = r => require.ensure([], () => r(require('@/pages/PhoneList')), 'PhoneList');
+const SurveyList = r => require.ensure([], () => r(require('@/pages/SurveyList')), 'SurveyList');
+const SurveyDetail = r => require.ensure([], () => r(require('@/pages/SurveyDetail')), 'SurveyDetail');
 
 
 Vue.use(Router);
@@ -192,6 +194,17 @@ const router = new Router({
       name: 'CompanyDetail',
       component: CompanyDetail,
     },
+    {
+      path: '/survey/list',
+      name: 'SurveyList',
+      component: SurveyList,
+    },
+    {
+      path: '/survey/detail',
+      name: 'SurveyDetail',
+      component: SurveyDetail,
+    }
+
   ],
 });
 
