@@ -37,12 +37,12 @@ export default {
           [{'text':'姓名'},{'text':'分数'},{'text':'操作'}]
         ],
         "body":[]
-      },
+      }
 
     };
   },
   methods: {
-     async search(condition){
+        async search(condition){
                   if(condition==0||condition==1){
                       this.condition.status = condition;
                   }
@@ -55,8 +55,8 @@ export default {
                   this.data.body = scores_data;
                   sessionStorage.setItem("scores_data",JSON.stringify(scores_data));
 
-    },
-  },
+        }
+   },
    async mounted(){
                   const _scores_data = sessionStorage.getItem("scores_data");
                   if(_scores_data){

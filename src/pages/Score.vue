@@ -18,28 +18,28 @@ export default {
     RPreviewer,
   },
   data() {
-    return {
-      score:"0",
-      list1: []
-    };
+        return {
+          score:"0",
+          list1: []
+        };
   },
   methods: {
-    onChange() {}
+        onChange() {}
   },
   async mounted(){
-                const identityId = Util.getIdentityId(this);
-                const url = `intern/score/list`;
-                const list = await this.$http.post(url,{"studentNos":[identityId],"pageNo":1,"pageSize":50});
-                if(list.body){
-                  this.score = list.body[0].schoolScore?list.body[0].schoolScore+"":"还没出成绩";
-                  this.list1 = [{
-                        label: '学生姓名',
-                        value: list.body[0].studentName
-                      }, {
-                        label: '老师姓名',
-                        value: list.body[0].teacherName
-                  }]
-                }
+        const identityId = Util.getIdentityId(this);
+        const url = `intern/score/list`;
+        const list = await this.$http.post(url,{"studentNos":[identityId],"pageNo":1,"pageSize":50});
+        if(list.body){
+          this.score = list.body[0].schoolScore?list.body[0].schoolScore+"":"还没出成绩";
+          this.list1 = [{
+                label: '学生姓名',
+                value: list.body[0].studentName
+              }, {
+                label: '老师姓名',
+                value: list.body[0].teacherName
+          }]
+        }
                 
   }
 };

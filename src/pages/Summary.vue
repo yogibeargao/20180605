@@ -67,68 +67,70 @@ export default {
     FileUpload,
   },
   data() {
-    return {
-      files: [],
-      score:null,
-      comments:null,
-      id:null
-    };
+          return {
+            files: [],
+            score:null,
+            score_1:null,
+            score_2:null,
+            comments:null,
+            id:null
+          };
   },
   methods: {
       async download() {
-        window.location.href=Vue.http.options.root+"/intern/summary/template/download";
+            window.location.href=Vue.http.options.root+"/intern/summary/template/download";
       },
       async customAction(file, component){
-       const self = this;
-       const formData = new FormData();
-      formData.append('files', file.file);
-      if(this.id){
-        formData.append('summaryId', this.id);
-      }
-      return await self.$http.post(`intern/summary/upload`,formData);
-    },
+            const self = this;
+            const formData = new FormData();
+            formData.append('files', file.file);
+            if(this.id){
+              formData.append('summaryId', this.id);
+            }
+            return await self.$http.post(`intern/summary/upload`,formData);
+   },
    inputFilter(newFile, oldFile, prevent) {
-      if (newFile && !oldFile) {
-        // Before adding a file
-        // 添加文件前
-        // Filter system files or hide files
-        // 过滤系统文件 和隐藏文件
-        if (/(\/|^)(Thumbs\.db|desktop\.ini|\..+)$/.test(newFile.name)) {
-          return prevent()
-        }
-        // Filter php html js file
-        // 过滤 php html js 文件
-        if (/\.(php5?|html?|jsx?)$/i.test(newFile.name)) {
-          return prevent()
-        }
-      }
+            if (newFile && !oldFile) {
+              // Before adding a file
+              // 添加文件前
+              // Filter system files or hide files
+              // 过滤系统文件 和隐藏文件
+              if (/(\/|^)(Thumbs\.db|desktop\.ini|\..+)$/.test(newFile.name)) {
+                return prevent()
+              }
+              // Filter php html js file
+              // 过滤 php html js 文件
+              if (/\.(php5?|html?|jsx?)$/i.test(newFile.name)) {
+                return prevent()
+              }
+            }
     },
     inputFile(newFile, oldFile) {
-      if (newFile && !oldFile) {
-        // add
-        console.log('add', newFile)
-      }
-      if (newFile && oldFile) {
-        // update
-        console.log('update', newFile)
-      }
-      if (!newFile && oldFile) {
-        // remove
-        console.log('remove', oldFile)
-      }
-    }
+            if (newFile && !oldFile) {
+              // add
+              console.log('add', newFile)
+            }
+            if (newFile && oldFile) {
+              // update
+              console.log('update', newFile)
+            }
+            if (!newFile && oldFile) {
+              // remove
+              console.log('remove', oldFile)
+            }
+          }
   },
   async mounted(){
-                  const url = "intern/summary/stu";
-                  const temp_record = await this.$http.get(url);
-                  console.log(temp_record)
-                  if(temp_record.body){
-                    this.comments = temp_record.body.comments;
-                    //this.score = temp_record.body.score;
-                    this.score_1 = temp_record.body.score1;
-                    this.score_2 = temp_record.body.score2;
-                    this.id = temp_record.body.id;
-                  }
+            const url = "intern/summary/stu";
+            const temp_record = await this.$http.get(url);
+            console.log(temp_record)
+            if(temp_record.body){
+                this.comments = temp_record.body.comments;
+                this.score = temp_record.body.professionalScore;
+                this.score_1 = temp_record.body.professionalScore;
+                this.score_2 = temp_record.body.postPracticeScore;
+                this.id = temp_record.body.id;
+            }
   },
   
 
