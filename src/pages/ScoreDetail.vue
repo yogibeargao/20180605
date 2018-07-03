@@ -73,14 +73,14 @@ export default {
     };
   },
   methods: {
-        async submit() {
+       /*  async submit() {
                       const s_identityId =   this.$route.query.id;
                       const identityId = Util.getIdentityId(this);
                       const result = await this.$http.post(`intern/score/create`,{"studentNo":s_identityId,"teacherNo":identityId,"schoolScore":Number(this.score),"comments":this.comments});
                       if(result.body){
                         this.$router.back(-1);
                       }
-        },
+        }, */
         async download() {
             const identityId = Util.getIdentityId(this);
             window.location.href=Vue.http.options.root+"/intern/download/student/intern/all?studentNo=" + identityId;
