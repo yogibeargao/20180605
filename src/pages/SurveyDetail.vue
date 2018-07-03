@@ -86,17 +86,19 @@ export default {
        const self = this;
        const formData = new FormData();
        formData.append('files', file.file);
-
+      
        if(this.survey){
           const id = this.$route.query.id;
           const identityId = Util.getIdentityId(this);
+          var surveyInfo = {};
+
+          surveyInfo.techerNo = identityId;
+          surveyInfo.studentNo = identityId;
+          surveyInfo.surveryTime = this.survey.surveryTime+":00";
+          surveyInfo.location = this.survey.location;
+          surveyInfo.enterpriseName = this.survey.enterpriseName;
         
-          formData.append('studentNo', identityId);
-          formData.append('techerNo', this.survey.techerNo);
-          formData.append('surveryTime', this.survey.surveryTime+":00");
-          formData.append('location', this.survey.location);
-          formData.append('enterpriseName', this.survey.enterpriseName);
-          formData.append('surveyComments', this.survey.surveyComments);
+          formData.append('survey', surveyInfo);
       }
       return await self.$http.post(`intern/student/intern/survey/create`,formData);
     },
