@@ -41,7 +41,7 @@
                 </file-upload>
                 <button type="button" class="btn btn-success" v-if="!$refs.upload || !$refs.upload.active" @click.prevent="$refs.upload.active = true">
                   <i class="fa fa-arrow-up white" aria-hidden="true"></i>
-                  上传
+                  上传并提交
                 </button>
                 <button type="button" class="btn btn-danger"  v-else @click.prevent="$refs.upload.active = false">
                   <i class="fa fa-stop white" aria-hidden="true"></i>
@@ -87,7 +87,7 @@ export default {
        const formData = new FormData();
        formData.append('files', file.file);
       
-       if(this.survey){
+       //if(this.survey){
           const id = this.$route.query.id;
           const identityId = Util.getIdentityId(this);
           var surveyInfo = {};
@@ -99,7 +99,7 @@ export default {
           surveyInfo.enterpriseName = this.survey.enterpriseName;
         
           formData.append('survey', surveyInfo);
-      }
+      //}
       return await self.$http.post(`intern/student/intern/survey/create`,formData);
     },
    inputFilter(newFile, oldFile, prevent) {

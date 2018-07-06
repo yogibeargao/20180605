@@ -96,7 +96,6 @@ export default {
                 if(temp_record.body){
 
                   this.schoolScore = temp_record.body.schoolScore;
-                  //this.comments = temp_record.body.comments;
                   this.v_fdy_score_1 = temp_record.body.attendanceScore;
                   this.v_fdy_score_2 = temp_record.body.documentScore;
                   this.v_xyds_score_1 = temp_record.body.professionalScore;
@@ -106,6 +105,9 @@ export default {
                   this.v_qyds_score_3 = temp_record.body.attitudeScore;
                   this.v_qyds_score_4 = temp_record.body.professionalScore;
                   this.v_qyds_score_5 = temp_record.body.performanceScore;
+                  //this.fdyComments = temp_record.body.fdyComments;
+                  //this.xydsComments = temp_record.body.xydsComments;
+                  //this.qydsComments = temp_record.body.qydsComments;
                 }
         }
   

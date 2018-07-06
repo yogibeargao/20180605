@@ -136,15 +136,15 @@ export default {
                       this.v_score_1 = temp_record.body.professionalScore;
                       this.v_score_2 = temp_record.body.postPracticeScore;
                       this.state = temp_record.body.state;
-                      //this.fileList = temp_record.body.fileList;
+                      this.fileList = temp_record.body.summaryDetailVOs;
 
                       //this.fileList = [{'fileName':'一月份实习报告一月份实习报告.doc','fileId': 11},{'fileName':'一月份实习报告.doc','fileId': 12},{'fileName':'一月份实习报告.doc','fileId': 13}];
                       if(this.fileList){
                             const files_data = [];
                              _.each(this.fileList,(fileInfo,index)=>{
                                 const _file = {};
-                                _file["id"] = fileInfo.fileId;
-                                _file["title"] = fileInfo.fileName;
+                                _file["id"] = fileInfo.id;
+                                _file["title"] = fileInfo.documentName;
                                 _file["url"] = Vue.http.options.root+'/intern/summary/download?fileId=' + _file.id;
                                 files_data.push(_file);
                             });
