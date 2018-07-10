@@ -124,20 +124,7 @@ export default {
                         const url = "intern/detail/appraisal/create?internDetailId="+ id;
                         let param = {"comments":this.record.appraisalContent,"workEthicsScore":this.record.v_score_1,"complianceScore":this.record.v_score_2,"attitudeScore":this.record.v_score_3,"professionalScore":this.record.v_score_4,"performanceScore":this.record.v_score_5};
                         temp_record = await this.$http.post(url,param);
-                         
-
-                       /*  var score_1 = "&score1=" + this.record.v_score_1;
-                        var score_2 = "&score2=" + this.record.v_score_2;
-                        var score_3 = "&score3=" + this.record.v_score_3;
-                        var score_4 = "&score4=" + this.record.v_score_4;
-                        var score_5 = "&score5=" + this.record.v_score_5;
-
-                        var comemnt_s = "&comments=" + this.record.appraisalContent;
-
-                        let recordParam = score_1 + score_2 + score_3 + score_4 + score_5 + comemnt_s;
-
-                        const url = "intern/detail/appraisal/create?internDetailId="+ id + recordParam;
-                        temp_record = await this.$http.post(url); */
+                        
                     }
         }
 

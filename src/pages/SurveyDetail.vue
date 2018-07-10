@@ -83,28 +83,27 @@ export default {
       },
       async customAction(file, component){
 
-       const self = this;
-       const formData = new FormData();
-       formData.append('files', file.file);
-      
-       //if(this.survey){
-          const id = this.$route.query.id;
-          const identityId = Util.getIdentityId(this);
-          var surveyInfo = {};
+            const self = this;
+            const formData = new FormData();
+            formData.append('files', file.file);
+            
+            const id = this.$route.query.id;
+            const identityId = Util.getIdentityId(this);
+            var surveyInfo = {};
 
-          surveyInfo.surveryId = id;
-          surveyInfo.techerNo = identityId;
-          surveyInfo.studentNo = this.survey.studentNo;
-          surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
-          surveyInfo.location = this.survey.location;
-          surveyInfo.enterpriseName = this.survey.enterpriseName;
-          surveyInfo.surveyComments = this.survey.surveyComments;
+            surveyInfo.surveryId = id;
+            surveyInfo.techerNo = identityId;
+            surveyInfo.studentNo = this.survey.studentNo;
+            surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
+            surveyInfo.location = this.survey.location;
+            surveyInfo.enterpriseName = this.survey.enterpriseName;
+            surveyInfo.surveyComments = this.survey.surveyComments;
 
-          var surveyInfoStr = JSON.stringify(surveyInfo); // 将jsobObject转换为json字符串
-        
-          formData.append('survey', surveyInfoStr);
-      //}
-      return await self.$http.post(`intern/student/intern/survey/create`,formData);
+            var surveyInfoStr = JSON.stringify(surveyInfo); // 将jsobObject转换为json字符串
+          
+            formData.append('survey', surveyInfoStr);
+            return await self.$http.post(`intern/student/intern/survey/create`,formData);
+            
     },
    inputFilter(newFile, oldFile, prevent) {
       if (newFile && !oldFile) {
