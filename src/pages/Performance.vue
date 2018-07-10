@@ -8,7 +8,7 @@
                 <div id="perform" style="width: 100%;height:265px;"></div>
             </r-card>
             
-           <r-card title="导员考核">
+           <r-card title="导员考核"  v-if='!isStudent'>
                   <r-input title="实习出勤分:" :readonly="true"  :max="100" :min="0"  :model="this" value="v_score_1" :isNumber="true"/>
                   <r-input title="实习材料分:" :readonly="true"  :max="100" :min="0"  :model="this" value="v_score_2" :isNumber="true"/>
                   <r-textarea title="评价:" :readonly="true" :model="this" value="comments" :height="150" :max="600"></r-textarea>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import Util from "../util/util";
 export default {
   data(){
       return {
@@ -32,6 +33,11 @@ export default {
           v_score_2:null,
           v_studentNo:null,
           performInfo: {}
+      }
+  },
+  computed:{
+      isStudent(){
+      return Util.isStudent(this);
       }
   },
   async mounted (){

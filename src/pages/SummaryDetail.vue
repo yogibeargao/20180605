@@ -5,7 +5,7 @@
              <r-card title="实习报告表：">
                 <r-panel :data="fileListData" type='3'/>
              </r-card>
-             <r-card title="成绩评定表：">
+             <r-card title="成绩评定表："   v-if='!isTeacher'>
                 <r-input title="专业学习情况分:"  placeholder="最高15分" :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_score_1" :isNumber="true"/>
                 <r-input title="顶岗实习小结分:"  placeholder="最高20分" :readonly="!isShow"   :max="100" :min="0"  :model="this" value="v_score_2" :isNumber="true"/>
                 <r-textarea title="评价:" :readonly="!isShow"  :model="this" value="comments" :height="200" :max="600"></r-textarea>
@@ -37,6 +37,7 @@
 <script>
 
 import Vue from 'vue';
+import Util from "../util/util";
 import {ConfirmApi } from "rainbow-mobile-core";
 
 export default {
@@ -50,6 +51,11 @@ export default {
       isShow:false,
       fileListData: []
     };
+  },
+  computed:{
+      isTeacher(){
+      return Util.isTeacher(this);
+      }
   },
   methods: {
         async download(){
