@@ -25,7 +25,7 @@
                   <r-input title="实习工作态度分:"  :readonly="true"   :max="100" :min="0"  :model="this" value="v_qyds_score_3" :isNumber="true"/>
                   <r-input title="专业业务能力分:"  :readonly="true"   :max="100" :min="0"  :model="this" value="v_qyds_score_4" :isNumber="true"/>
                   <r-input title="工作实绩分:"    :readonly="true"   :max="100" :min="0"  :model="this" value="v_qyds_score_5" :isNumber="true"/>
-                  <r-textarea title='实习评价:'  :readonly="true"  :model="this" value="qydsComments"  :autoSize="true" :rows="10" :max="200"></r-textarea>
+                  <r-textarea title='评价:'  :readonly="true"  :model="this" value="qydsComments"  :autoSize="true" :rows="10" :max="200"></r-textarea>
             </r-card>
       </r-body>
 
@@ -91,7 +91,8 @@ export default {
                 value: list.body[0].teacherName
           }]
         } */
-
+      
+        // 查询此学生各项成绩数据
         const identityId = Util.getIdentityId(this);
         const url = "intern/student/intern/all?studentNo=" + identityId;
         const temp_record = await this.$http.get(url);
@@ -105,11 +106,11 @@ export default {
           this.v_qyds_score_1 = temp_record.body.workEthicsScore;
           this.v_qyds_score_2 = temp_record.body.complianceScore;
           this.v_qyds_score_3 = temp_record.body.attitudeScore;
-          this.v_qyds_score_4 = temp_record.body.professionalScore;
+          this.v_qyds_score_4 = temp_record.body.professionalScore1;
           this.v_qyds_score_5 = temp_record.body.performanceScore;
-          //this.fdyComments = temp_record.body.fdyComments;
-          //this.xydsComments = temp_record.body.xydsComments;
-          //this.qydsComments = temp_record.body.qydsComments;
+          this.fdyComments = temp_record.body.counsellorApprisalContent;
+          this.xydsComments = temp_record.body.teacherApprisalComments;
+          this.qydsComments = temp_record.body.enterpriseComments;
 
         }
       

@@ -2,7 +2,7 @@
   <r-page>
       <top title="走访记录列表" :showBack="true"/>
       <r-body>
-              <search :condition="condition" :callBack="search"  :showClass="isShowClass" />
+              <search :condition="condition" :callBack="search"  />
               <r-card>
                   <r-selector  title="状态" :options="options" :model="this" value="status" :onChange="search"></r-selector>
               </r-card>
@@ -63,7 +63,7 @@ export default {
                   const surveys = await this.$http.post(`intern/student/intern/survey/list`,param);
                   const surveys_data = [];
                   _.each(surveys.body,(survey,index)=>{
-                      surveys_data.push([{'text':survey.enterpriseName},{'text':survey.state===1?'已走访':'未走访'},{'text':"查看","link":"/survey/detail?id="+survey.id}])
+                      surveys_data.push([{'text':survey.enterpriseName},{'text':survey.status===1?'已走访':'未走访'},{'text':"查看","link":"/survey/detail?id="+survey.surveryId}])
                   })
                   this.data.body = surveys_data;
                   sessionStorage.setItem("surveys_data",JSON.stringify(surveys_data));

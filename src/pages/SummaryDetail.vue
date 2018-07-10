@@ -145,7 +145,7 @@ export default {
                                 const _file = {};
                                 _file["id"] = fileInfo.id;
                                 _file["title"] = fileInfo.documentName;
-                                _file["url"] = Vue.http.options.root+'/intern/summary/download?fileId=' + _file.id;
+                                _file["url"] = Vue.http.options.root+'/intern/summary/detail/download?summaryDetailId=' + _file.id;
                                 files_data.push(_file);
                             });
                             this.fileListData = files_data;

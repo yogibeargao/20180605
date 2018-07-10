@@ -3,7 +3,7 @@
       <top title="走访记录详情" :showBack="true"/>
       <r-body>
              <r-card>
-                  <r-date-time  title='走访时间' :readonly="isShowDetail" :model="this.survey" value="surveryTime" format="YYYY-MM-DD HH:mm" :hourList="['09', '10', '11', '12', '13', '14', '15', '16', '17', '18']" :minuteList="['00', '15', '30', '45']"></r-date-time>
+                  <r-date-time  title='走访时间' :readonly="isShowDetail" :model="this.survey" value="surveryTimeStr" format="YYYY-MM-DD HH:mm" :hourList="['09', '10', '11', '12', '13', '14', '15', '16', '17', '18']" :minuteList="['00', '15', '30', '45']"></r-date-time>
              </r-card>
              <r-input title="走访地点" :readonly="isShowDetail" :required="true" :model="this.survey" value="location" placeholder="请输入走访地点"/>
              <r-input title="走访单位" :readonly="isShowDetail" :required="true" :model="this.survey" value="enterpriseName" placeholder="请输入走访单位"/>
@@ -19,7 +19,7 @@
                   <span>{{file.name}}</span> -
                   <span>{{file.size | formatSize}}</span> -
                   <span v-if="file.error">{{file.error}}</span>
-                  <span v-else-if="file.success">成功</span>
+                  <span v-else-if="file.success">上传成功<br/>走访记录提交成功!</span>
                   <span v-else-if="file.active">active</span>
                   <span v-else-if="file.active">active</span>
                   <span v-else></span>
@@ -92,13 +92,17 @@ export default {
           const identityId = Util.getIdentityId(this);
           var surveyInfo = {};
 
+          surveyInfo.surveryId = id;
           surveyInfo.techerNo = identityId;
-          surveyInfo.studentNo = identityId;
-          surveyInfo.surveryTime = this.survey.surveryTime+":00";
+          surveyInfo.studentNo = this.survey.studentNo;
+          surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
           surveyInfo.location = this.survey.location;
           surveyInfo.enterpriseName = this.survey.enterpriseName;
+          surveyInfo.surveyComments = this.survey.surveyComments;
+
+          var surveyInfoStr = JSON.stringify(surveyInfo); // 将jsobObject转换为json字符串
         
-          formData.append('survey', surveyInfo);
+          formData.append('survey', surveyInfoStr);
       //}
       return await self.$http.post(`intern/student/intern/survey/create`,formData);
     },
@@ -156,7 +160,8 @@ export default {
                           list.body.surveryTimeStr = list.body.surveryTime?list.body.surveryTime.substring(0,16):"";
                           list.body.location = list.body.location?list.body.location:"";
                           list.body.enterpriseName = list.body.enterpriseName?list.body.enterpriseName:"";
-                           list.body.surveyComments = list.body.surveyComments?list.body.surveyComments:"";
+                          list.body.surveyComments = list.body.surveyComments?list.body.surveyComments:"";
+                          list.body.studentNo = list.body.studentNo?list.body.studentNo:"";
                           this.survey = list.body;
                           console.log(this.survey)
                           delete this.survey["surveryTime"];
