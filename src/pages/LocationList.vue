@@ -81,12 +81,14 @@ export default {
                       }else if(student.attendance === '0'){
                           addressStr = {'id':student.id,'text':'未签到',"onClick":this.updateStatus};
                       }
-                      status_data.push([{'text':student.studentName}, addressStr ,{'text':student.signDate?student.signDate.substring(11,16):''}])
+                      status_data.push([{'text':student.studentName}, addressStr ,{'text':student.signDate?student.signDate.substring(5,16):''}])
                   })
                   this.data.body = status_data;
           }
   }
 };
 </script>
+
+
 
 
