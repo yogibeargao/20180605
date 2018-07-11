@@ -1,35 +1,53 @@
 <template>
   <r-page>
       <top title="请假列表" :showBack="true"/>
-<r-body>
-              
-               <search :condition="condition" :callBack="flash" :showClass="!isShowClass"/>
+      <r-body>
+                    
+                    <search :condition="condition" :callBack="flash" :showClass="!isShowClass"/>
 
-               <r-card>
-                  <r-selector  title="状态" :options="options" :model="this" value="type" :onChange="flash"></r-selector>
-              </r-card>
-                <r-card>
-                      <r-table :data="data" />
-                </r-card>
-</r-body>   
-  <r-tab-bar>
-                <r-cell type="row" :vertical="true" v-if="isStudent">
-                              <r-cell>
-                                  <r-box>
-                                      <r-button link='/ill/detail?type=submit'>请假申请</r-button>
-                                  </r-box>
-                              </r-cell>
-                  </r-cell>
-            </r-tab-bar>  
+                    <r-card>
+                        <r-selector  title="状态" :options="options" :model="this" value="type" :onChange="flash"></r-selector>
+                    </r-card>
+                      <r-card>
+                            <r-table :data="data" />
+                      </r-card>
+      </r-body>   
+      <r-tab-bar>
+            <r-cell type="row" :vertical="true" v-if="isStudent">
+                          <r-cell>
+                              <r-box>
+                                  <r-button link='/ill/detail?type=submit'>请假申请</r-button>
+                              </r-box>
+                          </r-cell>
+              </r-cell>
+              <r-cell type="row" :vertical="true" v-if="isTeacher">
+                      <r-cell>
+                        <r-box>
+                            <r-button :onClick="approves">全部通过</r-button>
+                        </r-box>
+                      </r-cell>
+                        <r-cell>
+                        <r-box>
+                            <r-button type='danger' :onClick="rejects">全部拒绝</r-button>
+                        </r-box>
+                      </r-cell>
+          </r-cell>
+      </r-tab-bar>  
   </r-page>
+   
+              
+          
+  
 </template>
 
 <script>
+import {ConfirmApi } from "rainbow-mobile-core";
 import Util from "../util/util";
 import  Search from '../components/Search.vue';
 
 export default {
   components: {
+    ConfirmApi,
     Search
   },
   data() {
@@ -45,12 +63,16 @@ export default {
       options: [{ key: 0, value: "未审批" }, { key: 1, value: "已审批" }],
       class:[],
       name:[],
-      flag:false
+      flag:false,
+      leaveId:[]
     };
   },
   computed:{
     isStudent(){
       return Util.isStudent(this);
+    },
+    isTeacher(){
+      return Util.isTeacher(this);
     },
     isShowClass(){
        if(Util.isCompany(this)){
@@ -99,12 +121,61 @@ export default {
               leave.leaveStartDate = leave.leaveStartDate?leave.leaveStartDate.substring(0,16):"";
               leave.leaveEndDate = leave.leaveEndDate?leave.leaveEndDate.substring(0,16):"";
               loadLeaves.push([{'text':leave.studentName},{'text':leave.leaveStartDate},{'text':leave.auditReply?leave.auditReply:"查看",'link':'/ill/detail?leaveId='+leave.leaveId}])
+            
+              this.leaveId.push(leave.leaveId);
             })
             if(!_.isEmpty(leaves.body)){
               sessionStorage.setItem("leaves",JSON.stringify(loadLeaves));
             }
             this.data.body = loadLeaves;
-      }
+           
+      },
+      async approves(){
+            if(!_.isEmpty(this.leaveId)){
+                  const illApply = await this.$http.post(`leave/approval?auditReply=1`,this.leaveId);
+                  if(illApply.body){
+                                        ConfirmApi.show(this,{
+                                        title: '',
+                                        content: '操作成功',
+                                      });
+                                      this.loadLeave(this.condition);
+                                    }else{
+                                      ConfirmApi.show(this,{
+                                        title: '',
+                                        content: '操作失败',
+                                      });
+                  }
+            }else{
+                ConfirmApi.show(this,{
+                                        title: '',
+                                        content: '请筛选学生',
+                });
+            }
+    
+    },
+    async rejects(){
+          if(!_.isEmpty(this.leaveId)){
+                const illApply = await this.$http.post(`leave/approval?auditReply=0`,this.leaveId);
+                if(illApply.body){
+                                      ConfirmApi.show(this,{
+                                      title: '',
+                                      content: '操作成功',
+                                    });
+                                    this.loadLeave(this.condition);
+                                  }else{
+                                    ConfirmApi.show(this,{
+                                      title: '',
+                                      content: '操作失败',
+                                    });
+                }
+          }else{
+              ConfirmApi.show(this,{
+                                      title: '',
+                                      content: '请筛选学生',
+              });
+          }
+     
+    }
   },
   mounted(){
        const leaves =  sessionStorage.getItem("leaves");
@@ -115,5 +186,8 @@ export default {
   }
 };
 </script>
+
+
+
 
 
