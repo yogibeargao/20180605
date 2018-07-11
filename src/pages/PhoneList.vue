@@ -13,12 +13,12 @@
                   <r-cell type="row" :vertical="true">
                                 <r-cell>
                                   <r-box>
-                                      <r-button :onClick="approve">全部通过</r-button>
+                                      <r-button :onClick="approves">全部通过</r-button>
                                   </r-box>
                                 </r-cell>
                                  <r-cell>
                                   <r-box>
-                                      <r-button type='danger' :onClick="reject">全部拒绝</r-button>
+                                      <r-button type='danger' :onClick="rejects">全部拒绝</r-button>
                                   </r-box>
                                 </r-cell>
                     </r-cell>
