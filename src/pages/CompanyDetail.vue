@@ -18,6 +18,11 @@
                  <r-card>
                     <r-switch title="是否当前单位" :required="true" :model="this.company" value="currentCompany" />
                 </r-card>
+
+                 <r-card>
+                    <r-input title="实习岗位" :required="true" :model="this.company" value="jobTitle" placeholder="请输入实习岗位"/>
+                    <r-textarea title="实习内容:"  :required="true" :model="this.company" value="internJobDescription" :height="200" :max="600"></r-textarea>
+                </r-card>
                 
       </r-body>
                 <r-tab-bar>

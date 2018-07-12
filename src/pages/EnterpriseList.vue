@@ -1,6 +1,6 @@
 <template>
   <r-page>
-      <top title="实习记录" :showBack="true"/>
+      <top title="企业考核" :showBack="true"/>
         <r-body>
                 <search :condition="condition" :callBack="search" :showClass="isShowClass"/>
                 <r-card>
@@ -32,7 +32,7 @@ export default {
         "body":[]
       },
       condition:{},
-      options: [{ key: 0, value: "未评价" }, { key: 1, value: "已评价" }],
+      options: [{ key: 0, value: "未打分" }, { key: 1, value: "已打分" }],
       status:null,
       commons:""
     };
@@ -50,18 +50,18 @@ export default {
                   }
                   const identityId = Util.getIdentityId(this);
                   const param = {"status":this.condition.status,"identityId":identityId,"classId":this.condition.class,"studentNos":this.condition.student_Nos,"startDateStr":this.condition.startDateStr,"endDateStr":this.condition.endDateStr,"pageNo":1,"pageSize":50} 
-                  const list = await this.$http.post(`intern/detail/list`,param);
+                  const list = await this.$http.post(`intern/student/enterprise/list`,param);
                   
                   this.data.body = _.map(list.body,(s)=>{
-                        return [{'text':s.studentName},{'text':s.apprisal?'已评价':"未评价"},{'text':"评价","link":"/record/detail?id="+s.id}]
+                        return [{'text':s.studentName},{'text':s.apprisal?'已打分':"未打分"},{'text':"打分","link":"/student/enterprise/detail?apprisalId="+s.id}]
                   })
-                  sessionStorage.setItem("recordList",JSON.stringify(this.data.body));
+                  sessionStorage.setItem("enterpriseList",JSON.stringify(this.data.body));
     }
   },
   mounted(){
-    const recordList = sessionStorage.getItem("recordList");
-    if(recordList){
-        this.data.body = JSON.parse(recordList);
+    const enterpriseList = sessionStorage.getItem("enterpriseList");
+    if(enterpriseList){
+        this.data.body = JSON.parse(enterpriseList);
     }
   }
 };

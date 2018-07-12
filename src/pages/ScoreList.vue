@@ -50,7 +50,7 @@ export default {
                   const scores = await this.$http.post(`intern/score/list`,param);
                   const scores_data = [];
                   _.each(scores.body,(score,index)=>{
-                      scores_data.push([{'text':score.studentName},{'text':score.schoolScore},{'text':score.schoolScore?'查看':'打分','link':"/score/detail?id="+score.id}])
+                      scores_data.push([{'text':score.studentName},{'text':score.schoolScore},{'text':'查看','link':"/score/detail?id="+score.id}])
                   })
                   this.data.body = scores_data;
                   sessionStorage.setItem("scores_data",JSON.stringify(scores_data));

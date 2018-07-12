@@ -2,6 +2,10 @@
   <r-page>
       <top title="实习总结" :showBack="true"/>
       <r-body>
+             <r-card title="实习报告表：">
+                <r-panel :data="fileListData" type='3'/>
+             </r-card>
+
              <r-input title="专业学习情况分:"   :readonly="true"   :max="100" :min="0"  :model="this" value="score_1" :isNumber="true"/>
              <r-input title="顶岗实习小结分:"   :readonly="true"   :max="100" :min="0"  :model="this" value="score_2" :isNumber="true"/>
              <r-textarea title="评价:" :readonly="true"   :model="this" value="comments" :height="600" :max="600"></r-textarea>
@@ -73,7 +77,8 @@ export default {
             score_1:null,
             score_2:null,
             comments:null,
-            id:null
+            id:null,
+            fileListData: []
           };
   },
   methods: {
@@ -130,6 +135,22 @@ export default {
                 this.score_1 = temp_record.body.professionalScore;
                 this.score_2 = temp_record.body.postPracticeScore;
                 this.id = temp_record.body.id;
+
+                this.fileList = temp_record.body.summaryDetailVOs;
+
+                //this.fileList = [{'fileName':'一月份实习报告一月份实习报告.doc','fileId': 11},{'fileName':'一月份实习报告.doc','fileId': 12},{'fileName':'一月份实习报告.doc','fileId': 13}];
+                if(this.fileList){
+                      const files_data = [];
+                        _.each(this.fileList,(fileInfo,index)=>{
+                          const _file = {};
+                          _file["id"] = fileInfo.id;
+                          _file["title"] = fileInfo.documentName;
+                          _file["url"] = Vue.http.options.root+'/intern/summary/detail/download?summaryDetailId=' + _file.id;
+                          files_data.push(_file);
+                      });
+                      this.fileListData = files_data;
+                }
+
             }
   },
   

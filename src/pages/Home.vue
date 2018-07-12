@@ -55,6 +55,7 @@ export default {
         { 'text': '个人信息','code':'grxx','link':'/personal'},
         { 'text': '修改密码','code':'xgmm','link':'/password'},
         { 'text': '走访记录','code':'zfjl','link':'/survey/list'},
+        { 'text': '企业考核','code':'qykh','link':'/enterprise/list'},
 
       ]
     };
