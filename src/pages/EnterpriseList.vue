@@ -49,11 +49,11 @@ export default {
                       this.condition.status = condition;
                   }
                   const identityId = Util.getIdentityId(this);
-                  const param = {"status":this.condition.status,"identityId":identityId,"classId":this.condition.class,"studentNos":this.condition.student_Nos,"startDateStr":this.condition.startDateStr,"endDateStr":this.condition.endDateStr,"pageNo":1,"pageSize":50} 
+                  const param = {"status":this.condition.status,"identityId":identityId,"classId":this.condition.class,"startDateStr":this.condition.startDateStr,"endDateStr":this.condition.endDateStr,"pageNo":1,"pageSize":50}; 
                   const list = await this.$http.post(`intern/student/enterprise/list`,param);
                   
                   this.data.body = _.map(list.body,(s)=>{
-                        return [{'text':s.studentName},{'text':s.apprisal?'已打分':"未打分"},{'text':"打分","link":"/student/enterprise/detail?apprisalId="+s.id}]
+                        return [{'text':s.studentName},{'text':s.apprisal?'已打分':"未打分"},{'text':"打分","link":"/student/enterprise/detail?id="+s.id}];
                   })
                   sessionStorage.setItem("enterpriseList",JSON.stringify(this.data.body));
     }

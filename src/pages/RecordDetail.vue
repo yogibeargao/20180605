@@ -65,8 +65,13 @@ export default {
                     }else{
 
                         const id = this.$route.query.id+"";
-                        const url = "intern/detail/appraisal/create?internDetailId="+ id;
-                        temp_record = await this.$http.post(url,this.record);
+                        const url = "intern/detail/appraisal/create";
+                        //this.record.internDetailId = id;
+                        //temp_record = await this.$http.post(url,this.record);
+                        var recordpj = {};
+                        recordpj.internDetailId = id;
+                        recordpj.comments = this.record.comments;
+                        temp_record = await this.$http.post(url,recordpj);
                     }
         }
 

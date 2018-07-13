@@ -116,10 +116,15 @@ export default {
 
                         const id = this.$route.query.id+"";
 
-                        const url = "intern/student/enterprise/apprisal?apprisalId="+ id;
-                        //temp_record = await this.$http.post(url,this.record);
-                        let param = {"workEthicsScore":this.record.v_score_1,"complianceScore":this.record.v_score_2,"attitudeScore":this.record.v_score_3,"professionalScore":this.record.v_score_4,"performanceScore":this.record.v_score_5};
-                        temp_record = await this.$http.post(url,param);
+                        const url = "intern/student/enterprise/apprisal";
+                        this.record.workEthicsScore = this.record.v_score_1;
+                        this.record.complianceScore = this.record.v_score_2;
+                         this.record.attitudeScore = this.record.v_score_3;
+                        this.record.professionalScore = this.record.v_score_4;
+                        this.record.performanceScore = this.record.v_score_5;
+                        temp_record = await this.$http.post(url,this.record);
+                        //let param = {"workEthicsScore":this.record.v_score_1,"complianceScore":this.record.v_score_2,"attitudeScore":this.record.v_score_3,"professionalScore":this.record.v_score_4,"performanceScore":this.record.v_score_5};
+                        //temp_record = await this.$http.post(url,param);
                         
                     }
         }
