@@ -53,7 +53,7 @@ export default {
                   const list = await this.$http.post(`intern/student/enterprise/list`,param);
                   
                   this.data.body = _.map(list.body,(s)=>{
-                        return [{'text':s.studentName},{'text':s.apprisal?'已打分':"未打分"},{'text':"打分","link":"/student/enterprise/detail?id="+s.id}];
+                        return [{'text':s.studentName},{'text':s.workEthicsScore?'已打分':"未打分"},{'text':"打分","link": s.workEthicsScore ? "/student/enterprise/detail?id="+s.id : "/enterprise/detail"}];
                   })
                   sessionStorage.setItem("enterpriseList",JSON.stringify(this.data.body));
     }
