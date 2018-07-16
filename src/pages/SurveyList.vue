@@ -12,7 +12,7 @@
              
       </r-body> 
 
-      <r-tab-bar>
+      <!-- <r-tab-bar>
           <r-cell type="row" :vertical="true" v-if="isSchoolTeacher">
                 <r-cell>
                     <r-box>
@@ -20,7 +20,7 @@
                     </r-box>
                 </r-cell>
             </r-cell>
-      </r-tab-bar>  
+      </r-tab-bar>   -->
   </r-page>
 </template>
 
@@ -63,7 +63,7 @@ export default {
                   const surveys = await this.$http.post(`intern/student/intern/survey/list`,param);
                   const surveys_data = [];
                   _.each(surveys.body,(survey,index)=>{
-                      surveys_data.push([{'text':survey.enterpriseName},{'text':survey.status===1?'已走访':'未走访'},{'text':"查看","link":"/survey/detail?id="+survey.surveryId}])
+                      surveys_data.push([{'text':survey.enterpriseName},{'text':survey.status===1?'已走访':'未走访'},{'text': survey.status === 1 ? '查看' :"新增","link": survey.status === 1? "/survey/detail?id="+survey.surveryId : "/survey/detail?studentNo="+survey.studentNo}])
                   })
                   this.data.body = surveys_data;
                   sessionStorage.setItem("surveys_data",JSON.stringify(surveys_data));

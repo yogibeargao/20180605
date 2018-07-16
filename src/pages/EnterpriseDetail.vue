@@ -46,7 +46,7 @@ export default {
       type : "warn",
       showFlag:false,
       apprisal:false,
-      state:null
+      status:null
     };
   },
   methods :{
@@ -109,9 +109,8 @@ export default {
                       const studentNo = this.$route.query.studentNo;
 
                       const identityId = Util.getIdentityId(this);
-                      this.record["studentNo"]= studentNo;
+                      this.record["studentNo"]= this.record.studentNo ? this.record.studentNo : studentNo;
                       //this.record.apprisalId = id;
-                      this.record.stauts = 1;
 
                       const url = "intern/student/enterprise/apprisal";
                       temp_record = await this.$http.post(url,this.record);
@@ -165,8 +164,8 @@ export default {
   },
    async mounted(){
           const id = this.$route.query.id;
-          const appraiserNo = this.$route.query.appraiserNo
-          const studentNo = this.$route.query.studentNo;
+          //const appraiserNo = this.$route.query.appraiserNo
+          //const studentNo = this.$route.query.studentNo;
           if(id){
                   const url = "intern/student/enterprise/detail?apprisalId="+id;
                   const temp_record = await this.$http.get(url);
@@ -179,10 +178,13 @@ export default {
                     temp_record.body.attitudeScore = temp_record.body.attitudeScore ? temp_record.body.attitudeScore : '';
                     temp_record.body.professionalScorev = temp_record.body.professionalScore ? temp_record.body.professionalScore : '';
                     temp_record.body.performanceScore = temp_record.body.performanceScore ? temp_record.body.performanceScore : '';
+
+                    temp_record.body.status = temp_record.body.status ? temp_record.body.status : '';
+                    temp_record.body.studentNo = temp_record.body.studentNo ? temp_record.body.studentNo : '';
+
                     this.record = temp_record.body;
                     //this.signStat = temp_record.body.signStat;
                     //this.apprisal = temp_record.body.apprisal;
-                    this.status = temp_record.body.status;
 
                   }
 

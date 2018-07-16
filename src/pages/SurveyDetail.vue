@@ -88,12 +88,13 @@ export default {
             formData.append('files', file.file);
             
             const id = this.$route.query.id;
+            const studentNo = this.$route.query.studentNo;
             const identityId = Util.getIdentityId(this);
             var surveyInfo = {};
 
             surveyInfo.surveryId = id;
-            surveyInfo.techerNo = identityId;
-            surveyInfo.studentNo = this.survey.studentNo;
+            surveyInfo.teacherNo = identityId;
+            surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
             surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
             surveyInfo.location = this.survey.location;
             surveyInfo.enterpriseName = this.survey.enterpriseName;
