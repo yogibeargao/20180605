@@ -64,7 +64,7 @@ export default {
 
                     }else{
 
-                        const id = this.$route.query.id+"";
+                        const id = this.$route.query.id;
                         const url = "intern/detail/appraisal/create";
                         //this.record.internDetailId = id;
                         //temp_record = await this.$http.post(url,this.record);
