@@ -171,6 +171,7 @@ export default {
                           list.body.enterpriseName = list.body.enterpriseName?list.body.enterpriseName:"";
                           list.body.surveyComments = list.body.surveyComments?list.body.surveyComments:"";
                           list.body.studentNo = list.body.studentNo?list.body.studentNo:"";
+                          list.body.studentName = list.body.studentName?list.body.studentName:"";
                           this.survey = list.body;
 
                           //this.user.studentNo = list.body.studentNo?list.body.studentNo:"";
