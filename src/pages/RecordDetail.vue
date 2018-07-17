@@ -9,7 +9,7 @@
                   <r-textarea title='实习描述:' :readonly="isreadonly" placeholder="请在这里输入实习描述" :model="this.record" value="internDescription" :height="200" :max="200"></r-textarea>
               </r-card>
                <r-card v-if='!isStudent || !isEdit'   title="实习记录评价：">
-                  <r-textarea title='实习评价:'  :readonly="isreadonly"  :model="this.record" value="comments"  :autoSize="true" :rows="10" :max="200"></r-textarea>
+                  <r-textarea title='实习评价:'  :readonly="isreadonly"  :model="this.record" value="appraisalContent"  :autoSize="true" :rows="10" :max="200"></r-textarea>
               </r-card>
       </r-body>
               <r-toast :model="this" value="showFlag" :text="toastText" :type='type'/>
@@ -56,7 +56,7 @@ export default {
         }else{ 
 
 
-                    if(!this.record.comments){
+                    if(!this.record.appraisalContent){
                       ConfirmApi.show(this,{
                             title: '',
                             content: '请输入实习记录评价'
@@ -66,11 +66,11 @@ export default {
 
                         const id = this.$route.query.id;
                         const url = "intern/detail/appraisal/create";
-                        //this.record.internDetailId = id;
+                        //this.record.id = id;
                         //temp_record = await this.$http.post(url,this.record);
                         var recordpj = {};
-                        recordpj.internDetailId = id;
-                        recordpj.comments = this.record.comments;
+                        recordpj.id = id;
+                        recordpj.appraisalContent = this.record.appraisalContent;
                         temp_record = await this.$http.post(url,recordpj);
                     }
         }
@@ -123,7 +123,7 @@ export default {
                     temp_record.body.startDateStr = temp_record.body.startDateStr?temp_record.body.startDateStr.substring(0,16):"";
                     temp_record.body.endDateStr = temp_record.body.endDateStr?temp_record.body.endDateStr.substring(0,16):"";
                     temp_record.body.internDescription=temp_record.body.internDescription=='null'?'':temp_record.body.internDescription;
-                    temp_record.body.comments=temp_record.body.appraisalContent=='null'?'':temp_record.body.comments;
+                    temp_record.body.appraisalContent=temp_record.body.appraisalContent=='null'?'':temp_record.body.appraisalContent;
                     this.record = temp_record.body;
                     this.signStat = temp_record.body.signStat;
                     this.apprisal = temp_record.body.apprisal;

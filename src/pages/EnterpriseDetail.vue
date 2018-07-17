@@ -10,7 +10,7 @@
               
                   <r-textarea title='实习评价:'  :readonly="isreadonly"  :model="this.record" value="appraisalContent"  :autoSize="true" :rows="10" :max="200"></r-textarea>
               </r-card> -->
-              <r-row title="学号" :model="this.record" value='studentNo'/>
+              <r-row title="学号" :model="this.record" value='studentNo' v-show="!isEdit"/>
 
               <r-card v-if='!isStudent || !isEdit'   title="企业考核打分：">
                   <r-input title="职业道德分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="workEthicsScore" :isNumber="true"/>
@@ -112,7 +112,7 @@ export default {
 
                       const identityId = Util.getIdentityId(this);
                       this.record["studentNo"]= this.record.studentNo ? this.record.studentNo : studentNo;
-                      //this.record.apprisalId = id;
+                      this.record.apprisalId = id ? id : '';
 
                       const url = "intern/student/enterprise/apprisal";
                       temp_record = await this.$http.post(url,this.record);
@@ -166,8 +166,6 @@ export default {
   },
    async mounted(){
           const id = this.$route.query.id;
-          //const appraiserNo = this.$route.query.appraiserNo
-          //const studentNo = this.$route.query.studentNo;
           if(id){
                   const url = "intern/student/enterprise/detail?apprisalId="+id;
                   const temp_record = await this.$http.get(url);
@@ -183,6 +181,7 @@ export default {
 
                     temp_record.body.status = temp_record.body.status ? temp_record.body.status : '';
                     temp_record.body.studentNo = temp_record.body.studentNo ? temp_record.body.studentNo : '';
+                    temp_record.body.apprisalId = temp_record.body.apprisalId ? temp_record.body.apprisalId : '';
 
                     this.record = temp_record.body;
                     //this.signStat = temp_record.body.signStat;
