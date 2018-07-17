@@ -10,6 +10,8 @@
               
                   <r-textarea title='实习评价:'  :readonly="isreadonly"  :model="this.record" value="appraisalContent"  :autoSize="true" :rows="10" :max="200"></r-textarea>
               </r-card> -->
+              <r-row title="学号" :model="this.record" value='studentNo'/>
+
               <r-card v-if='!isStudent || !isEdit'   title="企业考核打分：">
                   <r-input title="职业道德分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="workEthicsScore" :isNumber="true"/>
                   <r-input title="执行制度遵守纪律情况分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="complianceScore" :isNumber="true"/>

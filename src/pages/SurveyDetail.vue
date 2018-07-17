@@ -2,6 +2,8 @@
   <r-page>
       <top title="走访记录详情" :showBack="true"/>
       <r-body>
+            <r-row title="姓名" :model="this.survey" value='studentName'/>
+            <r-row title="学号" :model="this.survey" value='studentNo'/>
              <r-card>
                   <r-date-time  title='走访时间' :readonly="isShowDetail" :model="this.survey" value="surveryTimeStr" format="YYYY-MM-DD HH:mm" :hourList="['09', '10', '11', '12', '13', '14', '15', '16', '17', '18']" :minuteList="['00', '15', '30', '45']"></r-date-time>
              </r-card>
@@ -152,6 +154,13 @@ export default {
                   }
   },
   async mounted(){
+                   if(this.$route.query.studentNo){
+                      const url = "user/detail?identityId="+this.$route.query.studentNo;
+                      const signList = await this.$http.get(url);
+                      this.survey = signList.body.student;
+                        
+                   }
+
                     const id = this.$route.query.id;
                     if(id){
                       const url = `intern/student/intern/survey/detail?surveryId=`+id;  
@@ -163,6 +172,10 @@ export default {
                           list.body.surveyComments = list.body.surveyComments?list.body.surveyComments:"";
                           list.body.studentNo = list.body.studentNo?list.body.studentNo:"";
                           this.survey = list.body;
+
+                          //this.user.studentNo = list.body.studentNo?list.body.studentNo:"";
+
+
                           console.log(this.survey)
                           delete this.survey["surveryTime"];
                       }
