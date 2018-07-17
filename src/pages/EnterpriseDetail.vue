@@ -176,7 +176,7 @@ export default {
                     temp_record.body.workEthicsScore = temp_record.body.workEthicsScore ? temp_record.body.workEthicsScore : '';
                     temp_record.body.complianceScore = temp_record.body.complianceScore ? temp_record.body.complianceScore : '';
                     temp_record.body.attitudeScore = temp_record.body.attitudeScore ? temp_record.body.attitudeScore : '';
-                    temp_record.body.professionalScorev = temp_record.body.professionalScore ? temp_record.body.professionalScore : '';
+                    temp_record.body.professionalScore = temp_record.body.professionalScore ? temp_record.body.professionalScore : '';
                     temp_record.body.performanceScore = temp_record.body.performanceScore ? temp_record.body.performanceScore : '';
 
                     temp_record.body.status = temp_record.body.status ? temp_record.body.status : '';
