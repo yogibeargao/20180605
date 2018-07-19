@@ -8,7 +8,7 @@
 
                   <r-textarea title='实习描述:' :readonly="isreadonly" placeholder="请在这里输入实习描述" :model="this.record" value="internDescription" :height="200" :max="200"></r-textarea>
               </r-card>
-               <r-card v-if='!isStudent || !isEdit'   title="实习记录评价：">
+               <r-card v-if='isCompany'   title="实习记录评价：">
                   <r-textarea title='实习评价:'  :readonly="isreadonly"  :model="this.record" value="appraisalContent"  :autoSize="true" :rows="10" :max="200"></r-textarea>
               </r-card>
       </r-body>
@@ -104,10 +104,13 @@ export default {
   },
   computed:{
       isStudent(){
-      return Util.isStudent(this);
+        return Util.isStudent(this);
+      },
+      isCompany(){
+        return Util.isCompany(this);
       },
       isreadonly(){
-        return this.state===1?true:false;
+        return this.state==='1'?true:false;
       },
       isEdit(){
         const id = this.$route.query.id;

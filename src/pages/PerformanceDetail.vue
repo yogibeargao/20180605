@@ -95,6 +95,7 @@ export default {
                                 content: '操作失败',
                               });
                       }
+                      this.$router.back();
                   }
                   
     },

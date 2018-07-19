@@ -18,6 +18,8 @@
                   <r-input title="实习工作态度分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="attitudeScore" :isNumber="true"/>
                   <r-input title="专业业务能力分:"  placeholder="最高7分" :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="professionalScore" :isNumber="true"/>
                   <r-input title="工作实绩分:"  placeholder="最高7分"  :readonly="isreadonly"   :max="100" :min="0"  :model="this.record" value="performanceScore" :isNumber="true"/>
+
+                  <r-textarea title='导师评价:'  :readonly="isreadonly"  :model="this.record" value="comments"  :autoSize="true" :rows="10" :max="200"></r-textarea>
               </r-card>
       </r-body>
                             <r-toast :model="this" value="showFlag" :text="toastText" :type='type'/>
@@ -105,6 +107,11 @@ export default {
                           title: '',
                           content: '工作实绩分数<br/>评分规则为[0-7分]！'
                     });
+                  }else if(!this.record.comments){
+                    ConfirmApi.show(this,{
+                          title: '',
+                          content: '请输入导师评价！'
+                    });
                   }else{
 
                       const id = this.$route.query.id+"";
@@ -116,7 +123,7 @@ export default {
 
                       const url = "intern/student/enterprise/apprisal";
                       //temp_record = await this.$http.post(url,this.record);
-                      let param = {"apprisalId":this.record.apprisalId,"studentNo":this.record["studentNo"],"workEthicsScore":this.record.workEthicsScore,"complianceScore":this.record.complianceScore,"attitudeScore":this.record.attitudeScore,"professionalScore":this.record.professionalScore,"performanceScore":this.record.performanceScore};
+                      let param = {"apprisalId":this.record.apprisalId,"studentNo":this.record["studentNo"],"workEthicsScore":this.record.workEthicsScore,"complianceScore":this.record.complianceScore,"attitudeScore":this.record.attitudeScore,"professionalScore":this.record.professionalScore,"performanceScore":this.record.performanceScore,"comments":this.record.comments};
                       temp_record = await this.$http.post(url,param);
                       
                 }

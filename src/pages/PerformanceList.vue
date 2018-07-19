@@ -45,7 +45,7 @@ export default {
                   const status = await this.$http.post(`intern/attendenceAppraisal/list`,param);
                   const status_data = [];
                   _.each(status.body,(student,index)=>{
-                      status_data.push([{'text':student.studentName},{'text': (!student.comments || !student.status) ?'未评价':'已评价'},{'text':"查看","link":"/performance/detail?id="+student.id+"&studentNo="+student.studentNo}])
+                      status_data.push([{'text':student.studentName},{'text': (!student.comments || !student.status) ?'未评价':'已评价'},{'text':(!student.comments || !student.status) ?'打分':'查看',"link":"/performance/detail?id="+student.id+"&studentNo="+student.studentNo}])
                   })
                   this.data.body = status_data;
                   sessionStorage.setItem("appraisal_data",JSON.stringify(status_data));

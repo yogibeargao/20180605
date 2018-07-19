@@ -38,7 +38,7 @@ export default {
       name: [],
       data:{
         "head":[
-          [{'text':'走访单位'},{'text':'状态'},{'text':'操作'}]
+          [{'text':'学生姓名'},{'text':'走访单位'},{'text':'状态'},{'text':'操作'}]
         ],
         "body":[]
       },
@@ -63,7 +63,7 @@ export default {
                   const surveys = await this.$http.post(`intern/student/intern/survey/list`,param);
                   const surveys_data = [];
                   _.each(surveys.body,(survey,index)=>{
-                      surveys_data.push([{'text':survey.enterpriseName},{'text':survey.status===1?'已走访':'未走访'},{'text': survey.status === 1 ? '查看' :"新增","link": survey.status === 1? "/survey/detail?id="+survey.surveryId : "/survey/detail?studentNo="+survey.studentNo}])
+                      surveys_data.push([{'text':survey.studentName},{'text':survey.enterpriseName},{'text':survey.status===1?'已走访':'未走访'},{'text': survey.status === 1 ? '查看' :"新增","link": survey.status === 1? "/survey/detail?id="+survey.surveryId : "/survey/detail?studentNo="+survey.studentNo}])
                   })
                   this.data.body = surveys_data;
                   sessionStorage.setItem("surveys_data",JSON.stringify(surveys_data));
