@@ -80,7 +80,8 @@ export default {
   data() {
     return {
       files: [],
-      survey:{}
+      survey:{},
+      fileListData: []
     };
   },
   methods: {
