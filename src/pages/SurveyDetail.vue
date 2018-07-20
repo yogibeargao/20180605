@@ -11,7 +11,7 @@
              <r-input title="走访单位" :readonly="isShowDetail" :required="true" :model="this.survey" value="enterpriseName" placeholder="请输入走访单位"/>
              <r-textarea title="调研情况:"  :readonly="isShowDetail"  :model="this.survey" value="surveyComments" :height="600" :max="600"></r-textarea>
 
-             <r-card title="调研报告列表：">
+             <r-card title="调研报告列表：" v-if="isShowDetail">
                 <r-panel :data="fileListData" type='3'/>
              </r-card>
        </r-body>
