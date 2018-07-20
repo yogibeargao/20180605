@@ -22,9 +22,10 @@
                   <r-textarea title='导师评价:'  :readonly="isreadonly"  :model="this.record" value="comments"  :autoSize="true" :rows="10" :max="200"></r-textarea>
               </r-card>
       </r-body>
-                            <r-toast :model="this" value="showFlag" :text="toastText" :type='type'/>
 
-              <r-tab-bar v-if="isShow">
+              <r-toast :model="this" value="showFlag" :text="toastText" :type='type'/>
+
+              <r-tab-bar v-if="isShow && isEdit">
                 <r-cell type="row" :vertical="true" v-if="!isreadonly">
                               <r-cell >
                                   <r-box>

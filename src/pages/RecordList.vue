@@ -34,12 +34,16 @@ export default {
       condition:{},
       options: [{ key: 0, value: "未评价" }, { key: 1, value: "已评价" }],
       status:null,
-      commons:""
+      commons:"",
+      isShow:false
     };
   },
   computed:{
       isShowClass(){
         return !Util.isCompany(this);
+      },
+      isCompany(){
+        return Util.isCompany(this);
       }
   },
   methods:{
@@ -53,7 +57,7 @@ export default {
                   const list = await this.$http.post(`intern/detail/list`,param);
                   
                   this.data.body = _.map(list.body,(s)=>{
-                        return [{'text':s.studentName},{'text':s.apprisalState === '1'?'已评价':"未评价"},{'text':s.apprisalState === '1'?'查看':"评价","link":"/record/detail?id="+s.id}];
+                        return [{'text':s.studentName},{'text':s.apprisalState === '1'?'已评价':"未评价"},{'text':s.apprisalState === '1'?'查看': (!this.isShow?'查看':"评价"),"link":"/record/detail?id="+s.id}];
                   })
                   sessionStorage.setItem("recordList",JSON.stringify(this.data.body));
     }
@@ -63,6 +67,11 @@ export default {
     if(recordList){
         this.data.body = JSON.parse(recordList);
     }
+  },
+  async created(){
+          const auditUrl = "user/processaudit?processCode=interndetail";
+          const audit = await this.$http.get(auditUrl);
+          this.isShow = audit.body;
   }
 };
 </script>

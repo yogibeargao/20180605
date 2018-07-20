@@ -54,16 +54,17 @@
                   停止上传
                 </button>
               </div>
-            <!--  <r-cell type="row" :vertical="true">
-                  <r-cell >
-                    <r-box>
-                        <r-button :onClick="download">下载走访记录照片</r-button>
-                    </r-box>
-                  </r-cell>
-              </r-cell> -->
+
             </div>
-            
+
+             <r-cell  type="row" :vertical="true">
+              <r-box>
+                  <r-button :onClick="submit">提交</r-button>
+              </r-box>
+           </r-cell>
+
           </div>
+          
       </r-tab-bar>
   </r-page>
 </template>
@@ -72,10 +73,12 @@
 import Util from "../util/util";
 import FileUpload from 'vue-upload-component';
 import Vue from 'vue';
+import {ConfirmApi } from "rainbow-mobile-core";
 
 export default {
   components: {
     FileUpload,
+    ConfirmApi
   },
   data() {
     return {
@@ -88,7 +91,50 @@ export default {
       async download() {
         //window.location.href=Vue.http.options.root+"/intern/summary/template/download";
       },
+        async submit(){
+           let temp_record = null;
+
+            //const formData = new FormData();
+            //formData.append('files', file.file);
+            
+            //const id = this.$route.query.id;
+            const studentNo = this.$route.query.studentNo;
+            const identityId = Util.getIdentityId(this);
+            var surveyInfo1 = {};
+
+            //surveyInfo1.surveryId = id;
+            surveyInfo1.teacherNo = identityId;
+            surveyInfo1.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
+            surveyInfo1.surveryTime = this.survey.surveryTimeStr+":00";
+            surveyInfo1.location = this.survey.location;
+            surveyInfo1.enterpriseName = this.survey.enterpriseName;
+            surveyInfo1.surveyComments = this.survey.surveyComments;
+
+            var surveyInfoStr = JSON.stringify(surveyInfo1); // 将jsobObject转换为json字符串
+          
+            //formData.append('survey', surveyInfoStr);
+            temp_record = await this.$http.post(`intern/student/intern/survey/create`,surveyInfoStr);
+
+            //const param = {"studentNo":studentNo,"attendanceScore":this.v_score_1,"documentScore":this.v_score_2,"comments":this.comments,"status":1};
+            //const list = await this.$http.post(`intern/attendenceAppraisal/create`,param);
+
+            if(temp_record.body){
+                  ConfirmApi.show(this,{
+                      title: '',
+                      content: '操作成功',
+                    });
+            }else{
+                    ConfirmApi.show(this,{
+                      title: '',
+                      content: '操作失败',
+                    });
+            }
+            this.$router.back();
+  
+      },
       async customAction(file, component){
+
+            let temp_record = null;
 
             const self = this;
             const formData = new FormData();
@@ -110,8 +156,21 @@ export default {
             var surveyInfoStr = JSON.stringify(surveyInfo); // 将jsobObject转换为json字符串
           
             formData.append('survey', surveyInfoStr);
-            return await self.$http.post(`intern/student/intern/survey/create`,formData);
-            
+            //return await self.$http.post(`intern/student/intern/survey/create`,formData);
+            temp_record = await this.$http.post(`intern/student/intern/survey/create`,formData);
+            if(temp_record.body){
+                  ConfirmApi.show(this,{
+                      title: '',
+                      content: '操作成功',
+                    });
+            }else{
+                    ConfirmApi.show(this,{
+                      title: '',
+                      content: '操作失败',
+                    });
+            }
+            this.$router.back();
+  
     },
    inputFilter(newFile, oldFile, prevent) {
       if (newFile && !oldFile) {
@@ -156,6 +215,13 @@ export default {
                             return false;
                         }
                     }
+                  },
+                  isSchoolTeacher(){
+                      return Util.isSchoolTeacher(this);
+                  },
+                  isEdit(){
+                      const id = this.$route.query.id;
+                      return id ? true : false;
                   }
   },
   async mounted(){
