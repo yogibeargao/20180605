@@ -10,6 +10,10 @@
              <r-input title="走访地点" :readonly="isShowDetail" :required="true" :model="this.survey" value="location" placeholder="请输入走访地点"/>
              <r-input title="走访单位" :readonly="isShowDetail" :required="true" :model="this.survey" value="enterpriseName" placeholder="请输入走访单位"/>
              <r-textarea title="调研情况:"  :readonly="isShowDetail"  :model="this.survey" value="surveyComments" :height="600" :max="600"></r-textarea>
+
+             <r-card title="调研报告列表：">
+                <r-panel :data="fileListData" type='3'/>
+             </r-card>
        </r-body>
        <r-tab-bar v-if="!isShowDetail">
 
@@ -141,7 +145,7 @@ export default {
   },
   computed:{
                   isShowDetail(){
-                    const surveyId = this.$route.query.surveryId;
+                    const surveyId = this.$route.query.id;
                     if(surveyId){
                         return true;
                     }else{
@@ -174,7 +178,21 @@ export default {
                           list.body.studentName = list.body.studentName?list.body.studentName:"";
                           this.survey = list.body;
 
-                          //this.user.studentNo = list.body.studentNo?list.body.studentNo:"";
+                          this.fileList = list.body.surveyDetailVOs;
+
+                           //this.fileList = [{'fileName':'走访报告1.doc','fileId': 11},{'fileName':'走访报告2.doc','fileId': 12}}];
+                          if(this.fileList){
+                              const files_data = [];
+                              _.each(this.fileList,(fileInfo,index)=>{
+                                  const _file = {};
+                                  _file["id"] = fileInfo.id;
+                                  _file["title"] = fileInfo.documentName;
+                                  _file["url"] = Vue.http.options.root+'/intern/student/intern/survey/detail/download?surveyDetailId=' + _file.id;
+                                  files_data.push(_file);
+                              });
+                              this.fileListData = files_data;
+                          }
+
 
 
                           console.log(this.survey)
