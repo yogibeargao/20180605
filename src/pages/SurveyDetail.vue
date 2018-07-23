@@ -2,6 +2,11 @@
   <r-page>
       <top title="走访记录详情" :showBack="true"/>
       <r-body>
+
+            <r-card title="走访图片：" v-if="isShowDetail">
+                <r-panel :data="fileListData" type='3'/>
+            </r-card>
+            
             <r-row title="姓名" :model="this.survey" value='studentName'/>
             <r-row title="学号" :model="this.survey" value='studentNo'/>
              <r-card>
@@ -9,11 +14,9 @@
              </r-card>
              <r-input title="走访地点" :readonly="isShowDetail" :required="true" :model="this.survey" value="location" placeholder="请输入走访地点"/>
              <r-input title="走访单位" :readonly="isShowDetail" :required="true" :model="this.survey" value="enterpriseName" placeholder="请输入走访单位"/>
-             <r-textarea title="调研情况:"  :readonly="isShowDetail"  :model="this.survey" value="surveyComments" :height="600" :max="600"></r-textarea>
+             <r-textarea title="调研情况:"  :readonly="isShowDetail"  :model="this.survey" value="surveyComments" :height="200" :max="600"></r-textarea>
 
-             <r-card title="调研报告列表：" v-if="isShowDetail">
-                <r-panel :data="fileListData" type='3'/>
-             </r-card>
+            
        </r-body>
        <r-tab-bar v-if="!isShowDetail">
 
@@ -136,28 +139,68 @@ export default {
 
             let temp_record = null;
 
-            const self = this;
-            const formData = new FormData();
-            formData.append('files', file.file);
-            
-            const id = this.$route.query.id;
-            const studentNo = this.$route.query.studentNo;
-            const identityId = Util.getIdentityId(this);
-            var surveyInfo = {};
+            if(file){
+                  const self = this;
+                  const formData = new FormData();
+                  formData.append('files', file.file);
+                  
+                  const id = this.$route.query.id;
+                  const studentNo = this.$route.query.studentNo;
+                  const identityId = Util.getIdentityId(this);
+                  var surveyInfo = {};
 
-            surveyInfo.surveryId = id;
-            surveyInfo.teacherNo = identityId;
-            surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
-            surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
-            surveyInfo.location = this.survey.location;
-            surveyInfo.enterpriseName = this.survey.enterpriseName;
-            surveyInfo.surveyComments = this.survey.surveyComments;
+                  surveyInfo.surveryId = id;
+                  surveyInfo.teacherNo = identityId;
+                  surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
+                  surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
+                  surveyInfo.location = this.survey.location;
+                  surveyInfo.enterpriseName = this.survey.enterpriseName;
+                  surveyInfo.surveyComments = this.survey.surveyComments;
 
-            var surveyInfoStr = JSON.stringify(surveyInfo); // 将jsobObject转换为json字符串
-          
-            formData.append('survey', surveyInfoStr);
-            //return await self.$http.post(`intern/student/intern/survey/create`,formData);
-            temp_record = await this.$http.post(`intern/student/intern/survey/create`,formData);
+                  var surveyInfoStr = JSON.stringify(surveyInfo); // 将jsobObject转换为json字符串
+                
+                  formData.append('survey', surveyInfoStr);
+                  //return await self.$http.post(`intern/student/intern/survey/create`,formData);
+                  temp_record = await this.$http.post(`intern/student/intern/survey/create`,formData);
+                 /*  if(temp_record.body){
+                        ConfirmApi.show(this,{
+                            title: '',
+                            content: '操作成功',
+                          });
+                  }else{
+                          ConfirmApi.show(this,{
+                            title: '',
+                            content: '操作失败',
+                          });
+                  }
+                  this.$router.back(); */
+
+            }else{
+              
+                  const studentNo = this.$route.query.studentNo;
+                  const identityId = Util.getIdentityId(this);
+                  var surveyInfo1 = {};
+
+                  //surveyInfo1.surveryId = id;
+                  surveyInfo1.teacherNo = identityId;
+                  surveyInfo1.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
+                  surveyInfo1.surveryTime = this.survey.surveryTimeStr+":00";
+                  surveyInfo1.location = this.survey.location;
+                  surveyInfo1.enterpriseName = this.survey.enterpriseName;
+                  surveyInfo1.surveyComments = this.survey.surveyComments;
+
+                  var surveyInfoStr = JSON.stringify(surveyInfo1); // 将jsobObject转换为json字符串
+                
+                  //formData.append('survey', surveyInfoStr);
+                  temp_record = await this.$http.post(`intern/student/intern/survey/create`,surveyInfoStr);
+
+                  //const param = {"studentNo":studentNo,"attendanceScore":this.v_score_1,"documentScore":this.v_score_2,"comments":this.comments,"status":1};
+                  //const list = await this.$http.post(`intern/attendenceAppraisal/create`,param);
+
+                
+
+            }
+
             if(temp_record.body){
                   ConfirmApi.show(this,{
                       title: '',
@@ -170,6 +213,8 @@ export default {
                     });
             }
             this.$router.back();
+
+            
   
     },
    inputFilter(newFile, oldFile, prevent) {
@@ -252,7 +297,7 @@ export default {
                               const files_data = [];
                               _.each(this.fileList,(fileInfo,index)=>{
                                   const _file = {};
-                                  _file["id"] = fileInfo.id;
+                                  _file["id"] = fileInfo.surveryDetailId;
                                   _file["title"] = fileInfo.documentName;
                                   _file["url"] = Vue.http.options.root+'/intern/student/intern/survey/detail/download?surveyDetailId=' + _file.id;
                                   files_data.push(_file);

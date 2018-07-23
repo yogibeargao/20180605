@@ -20,7 +20,7 @@
                               </r-box>
                           </r-cell>
               </r-cell>
-              <r-cell type="row" :vertical="true" v-if="isTeacher">
+              <r-cell type="row" :vertical="true" v-if="isTeacher && isApproved">
                       <r-cell>
                         <r-box>
                             <r-button :onClick="approves">全部通过</r-button>
@@ -80,7 +80,11 @@ export default {
        }else{
           return Util.isStudent(this);
        }
+    },
+    isApproved(){
+      return (this.type === 0);
     }
+
   },
   methods:{
       goto(){
