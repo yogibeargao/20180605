@@ -124,7 +124,14 @@ export default {
 
                       const url = "intern/student/enterprise/apprisal";
                       //temp_record = await this.$http.post(url,this.record);
-                      let param = {"apprisalId":this.record.apprisalId,"studentNo":this.record["studentNo"],"workEthicsScore":this.record.workEthicsScore,"complianceScore":this.record.complianceScore,"attitudeScore":this.record.attitudeScore,"professionalScore":this.record.professionalScore,"performanceScore":this.record.performanceScore,"comments":this.record.comments};
+
+                      let param = {};
+                      if(id){
+                          param = {"apprisalId":this.record.apprisalId,"studentNo":this.record["studentNo"],"workEthicsScore":this.record.workEthicsScore,"complianceScore":this.record.complianceScore,"attitudeScore":this.record.attitudeScore,"professionalScore":this.record.professionalScore,"performanceScore":this.record.performanceScore,"comments":this.record.comments};
+                      }else{
+                          param = {"studentNo":this.record["studentNo"],"workEthicsScore":this.record.workEthicsScore,"complianceScore":this.record.complianceScore,"attitudeScore":this.record.attitudeScore,"professionalScore":this.record.professionalScore,"performanceScore":this.record.performanceScore,"comments":this.record.comments};
+                      }
+                      
                       temp_record = await this.$http.post(url,param);
                       
                 }
