@@ -48,7 +48,7 @@
                   <i class="fa fa-plus white"></i>
                   选择文件
                 </file-upload>
-                <button type="button" class="btn btn-success" v-if="!$refs.upload || !$refs.upload.active" @click.prevent="$refs.upload.active = true">
+                <button type="button" class="btn btn-success" v-if="(!$refs.upload || !$refs.upload.active) && showFlag" @click.prevent="$refs.upload.active = true">
                   <i class="fa fa-arrow-up white" aria-hidden="true"></i>
                   上传并提交
                 </button>
@@ -60,7 +60,7 @@
 
             </div>
 
-             <r-cell  type="row" :vertical="true">
+             <r-cell  type="row" :vertical="true" v-if="!showFlag">
               <r-box>
                   <r-button :onClick="submit">提交</r-button>
               </r-box>
@@ -87,7 +87,8 @@ export default {
     return {
       files: [],
       survey:{},
-      fileListData: []
+      fileListData: [],
+      showFlag: false
     };
   },
   methods: {
@@ -95,9 +96,9 @@ export default {
         //window.location.href=Vue.http.options.root+"/intern/summary/template/download";
       },
         async submit(){
-           let temp_record = null;
 
-            //const formData = new FormData();
+            let temp_record = null;
+            const formData = new FormData();
             //formData.append('files', file.file);
             
             //const id = this.$route.query.id;
@@ -115,11 +116,8 @@ export default {
 
             var surveyInfoStr = JSON.stringify(surveyInfo1); // 将jsobObject转换为json字符串
           
-            //formData.append('survey', surveyInfoStr);
-            temp_record = await this.$http.post(`intern/student/intern/survey/create`,surveyInfoStr);
-
-            //const param = {"studentNo":studentNo,"attendanceScore":this.v_score_1,"documentScore":this.v_score_2,"comments":this.comments,"status":1};
-            //const list = await this.$http.post(`intern/attendenceAppraisal/create`,param);
+            formData.append('survey', surveyInfoStr);
+            temp_record = await this.$http.post(`intern/student/intern/survey/create`,formData);
 
             if(temp_record.body){
                   ConfirmApi.show(this,{
@@ -138,69 +136,28 @@ export default {
       async customAction(file, component){
 
             let temp_record = null;
+            const self = this;
+            const formData = new FormData();
+            formData.append('files', file.file);
+            
+            const id = this.$route.query.id;
+            const studentNo = this.$route.query.studentNo;
+            const identityId = Util.getIdentityId(this);
+            var surveyInfo = {};
 
-            if(file){
-                  const self = this;
-                  const formData = new FormData();
-                  formData.append('files', file.file);
-                  
-                  const id = this.$route.query.id;
-                  const studentNo = this.$route.query.studentNo;
-                  const identityId = Util.getIdentityId(this);
-                  var surveyInfo = {};
+            surveyInfo.surveryId = id;
+            surveyInfo.teacherNo = identityId;
+            surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
+            surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
+            surveyInfo.location = this.survey.location;
+            surveyInfo.enterpriseName = this.survey.enterpriseName;
+            surveyInfo.surveyComments = this.survey.surveyComments;
 
-                  surveyInfo.surveryId = id;
-                  surveyInfo.teacherNo = identityId;
-                  surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
-                  surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
-                  surveyInfo.location = this.survey.location;
-                  surveyInfo.enterpriseName = this.survey.enterpriseName;
-                  surveyInfo.surveyComments = this.survey.surveyComments;
-
-                  var surveyInfoStr = JSON.stringify(surveyInfo); // 将jsobObject转换为json字符串
-                
-                  formData.append('survey', surveyInfoStr);
-                  //return await self.$http.post(`intern/student/intern/survey/create`,formData);
-                  temp_record = await this.$http.post(`intern/student/intern/survey/create`,formData);
-                 /*  if(temp_record.body){
-                        ConfirmApi.show(this,{
-                            title: '',
-                            content: '操作成功',
-                          });
-                  }else{
-                          ConfirmApi.show(this,{
-                            title: '',
-                            content: '操作失败',
-                          });
-                  }
-                  this.$router.back(); */
-
-            }else{
-              
-                  const studentNo = this.$route.query.studentNo;
-                  const identityId = Util.getIdentityId(this);
-                  var surveyInfo1 = {};
-
-                  //surveyInfo1.surveryId = id;
-                  surveyInfo1.teacherNo = identityId;
-                  surveyInfo1.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
-                  surveyInfo1.surveryTime = this.survey.surveryTimeStr+":00";
-                  surveyInfo1.location = this.survey.location;
-                  surveyInfo1.enterpriseName = this.survey.enterpriseName;
-                  surveyInfo1.surveyComments = this.survey.surveyComments;
-
-                  var surveyInfoStr = JSON.stringify(surveyInfo1); // 将jsobObject转换为json字符串
-                
-                  //formData.append('survey', surveyInfoStr);
-                  temp_record = await this.$http.post(`intern/student/intern/survey/create`,surveyInfoStr);
-
-                  //const param = {"studentNo":studentNo,"attendanceScore":this.v_score_1,"documentScore":this.v_score_2,"comments":this.comments,"status":1};
-                  //const list = await this.$http.post(`intern/attendenceAppraisal/create`,param);
-
-                
-
-            }
-
+            var surveyInfoStr = JSON.stringify(surveyInfo); // 将jsobObject转换为json字符串
+          
+            formData.append('survey', surveyInfoStr);
+            //return await self.$http.post(`intern/student/intern/survey/create`,formData);
+            temp_record = await this.$http.post(`intern/student/intern/survey/create`,formData);
             if(temp_record.body){
                   ConfirmApi.show(this,{
                       title: '',
@@ -213,8 +170,6 @@ export default {
                     });
             }
             this.$router.back();
-
-            
   
     },
    inputFilter(newFile, oldFile, prevent) {
@@ -246,6 +201,7 @@ export default {
         // remove
         console.log('remove', oldFile)
       }
+      this.showFlag = true;
     }
   },
   computed:{
