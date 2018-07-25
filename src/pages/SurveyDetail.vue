@@ -3,12 +3,14 @@
       <top title="走访记录详情" :showBack="true"/>
       <r-body>
 
-            <r-card title="走访图片：" v-if="isShowDetail">
+            <r-card title="走访图片：" v-if="isShowDetail && fileShowFlag">
                 <r-panel :data="fileListData" type='3'/>
             </r-card>
-            
+
+            <!--   <search :condition="condition" :callBack="search" :showTime="false"/> -->
+
             <r-row title="姓名" :model="this.survey" value='studentName'/>
-            <r-row title="学号" :model="this.survey" value='studentNo'/>
+            <!--  <r-row title="姓名" :model="this.survey" value='student_Names'/> -->
              <r-card>
                   <r-date-time  title='走访时间' :readonly="isShowDetail" :model="this.survey" value="surveryTimeStr" format="YYYY-MM-DD HH:mm" :hourList="['09', '10', '11', '12', '13', '14', '15', '16', '17', '18']" :minuteList="['00', '15', '30', '45']"></r-date-time>
              </r-card>
@@ -52,7 +54,7 @@
                   <i class="fa fa-arrow-up white" aria-hidden="true"></i>
                   上传并提交
                 </button>
-                <button type="button" class="btn btn-danger"  v-else @click.prevent="$refs.upload.active = false">
+                <button type="button" class="btn btn-danger"  v-else-if="showFlag" @click.prevent="$refs.upload.active = false">
                   <i class="fa fa-stop white" aria-hidden="true"></i>
                   停止上传
                 </button>
@@ -73,6 +75,7 @@
 </template>
 
 <script>
+import Search from '../components/Search.vue';
 import Util from "../util/util";
 import FileUpload from 'vue-upload-component';
 import Vue from 'vue';
@@ -81,20 +84,21 @@ import {ConfirmApi } from "rainbow-mobile-core";
 export default {
   components: {
     FileUpload,
-    ConfirmApi
+    ConfirmApi,
+    Search
   },
   data() {
     return {
       files: [],
       survey:{},
       fileListData: [],
-      showFlag: false
+      showFlag: false,
+      condition:{},
+      fileShowFlag: true
     };
   },
   methods: {
-      async download() {
-        //window.location.href=Vue.http.options.root+"/intern/summary/template/download";
-      },
+     
         async submit(){
 
             let temp_record = null;
@@ -108,7 +112,8 @@ export default {
 
             //surveyInfo1.surveryId = id;
             surveyInfo1.teacherNo = identityId;
-            surveyInfo1.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
+            //surveyInfo1.studentNos = this.condition.student_Nos;
+            surveyInfo1.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Nos;
             surveyInfo1.surveryTime = this.survey.surveryTimeStr+":00";
             surveyInfo1.location = this.survey.location;
             surveyInfo1.enterpriseName = this.survey.enterpriseName;
@@ -147,6 +152,7 @@ export default {
 
             surveyInfo.surveryId = id;
             surveyInfo.teacherNo = identityId;
+            //surveyInfo1.studentNos = this.condition.student_Nos;
             surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
             surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
             surveyInfo.location = this.survey.location;
@@ -187,6 +193,7 @@ export default {
           return prevent()
         }
       }
+     
     },
     inputFile(newFile, oldFile) {
       if (newFile && !oldFile) {
@@ -243,7 +250,9 @@ export default {
                           list.body.enterpriseName = list.body.enterpriseName?list.body.enterpriseName:"";
                           list.body.surveyComments = list.body.surveyComments?list.body.surveyComments:"";
                           list.body.studentNo = list.body.studentNo?list.body.studentNo:"";
+                          //list.body.student_Nos = list.body.student_Nos?list.body.student_Nos:"";
                           list.body.studentName = list.body.studentName?list.body.studentName:"";
+                          //list.body.student_Names = list.body.student_Names?list.body.student_Names:"";
                           this.survey = list.body;
 
                           this.fileList = list.body.surveyDetailVOs;
@@ -259,6 +268,8 @@ export default {
                                   files_data.push(_file);
                               });
                               this.fileListData = files_data;
+                          }else{
+                              this.fileShowFlag = false;
                           }
 
 
