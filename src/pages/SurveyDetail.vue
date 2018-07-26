@@ -272,8 +272,6 @@ export default {
                               this.fileShowFlag = false;
                           }
 
-
-
                           console.log(this.survey)
                           delete this.survey["surveryTime"];
                       }
