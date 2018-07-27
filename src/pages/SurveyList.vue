@@ -12,7 +12,7 @@
              
       </r-body> 
 
-      <!-- <r-tab-bar>
+      <r-tab-bar>
           <r-cell type="row" :vertical="true" v-if="isSchoolTeacher">
                 <r-cell>
                     <r-box>
@@ -20,7 +20,7 @@
                     </r-box>
                 </r-cell>
             </r-cell>
-      </r-tab-bar>   -->
+      </r-tab-bar>
   </r-page>
 </template>
 

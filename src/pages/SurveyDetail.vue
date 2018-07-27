@@ -7,10 +7,9 @@
                 <r-panel :data="fileListData" type='3'/>
             </r-card>
 
-            <!--   <search :condition="condition" :callBack="search" :showTime="false"/> -->
+            <search :condition="condition" :callBack="search" :showTime="false" v-if="!isShowDetail"/>
+            <r-row title="姓名" :model="this.survey" value='studentNames' v-if="isShowDetail"/>
 
-            <r-row title="姓名" :model="this.survey" value='studentName'/>
-            <!--  <r-row title="姓名" :model="this.survey" value='student_Names'/> -->
              <r-card>
                   <r-date-time  title='走访时间' :readonly="isShowDetail" :model="this.survey" value="surveryTimeStr" format="YYYY-MM-DD HH:mm" :hourList="['09', '10', '11', '12', '13', '14', '15', '16', '17', '18']" :minuteList="['00', '15', '30', '45']"></r-date-time>
              </r-card>
@@ -115,7 +114,7 @@ export default {
               surveyInfo1.surveryId = id;
             }
             surveyInfo1.teacherNo = identityId;
-            //surveyInfo1.studentNos = this.condition.student_Nos;
+            surveyInfo1.studentNos = this.condition.student_Nos;
             surveyInfo1.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Nos;
             surveyInfo1.surveryTime = this.survey.surveryTimeStr+":00";
             surveyInfo1.location = this.survey.location;
@@ -141,6 +140,9 @@ export default {
             this.$router.back();
   
       },
+      async search(condition) {
+
+      },
       async customAction(file, component){
 
             let temp_record = null;
@@ -157,8 +159,8 @@ export default {
               surveyInfo.surveryId = this.id;
             }
             surveyInfo.teacherNo = identityId;
-            //surveyInfo1.studentNos = this.condition.student_Nos;
-            surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
+            surveyInfo.studentNos = this.condition.student_Nos;
+            surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Noss;
             surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
             surveyInfo.location = this.survey.location;
             surveyInfo.enterpriseName = this.survey.enterpriseName;
@@ -257,9 +259,9 @@ export default {
                               list.body.enterpriseName = list.body.enterpriseName?list.body.enterpriseName:"";
                               list.body.surveyComments = list.body.surveyComments?list.body.surveyComments:"";
                               list.body.studentNo = list.body.studentNo?list.body.studentNo:"";
-                              //list.body.student_Nos = list.body.student_Nos?list.body.student_Nos:"";
+                              list.body.studentNos = list.body.studentNos?list.body.studentNos:"";
                               list.body.studentName = list.body.studentName?list.body.studentName:"";
-                              //list.body.student_Names = list.body.student_Names?list.body.student_Names:"";
+                              list.body.studentNames = list.body.studentNames?list.body.studentNames:"";
                               this.survey = list.body;
 
                               this.fileList = list.body.surveyDetailVOs;
