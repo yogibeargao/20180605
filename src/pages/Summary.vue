@@ -138,7 +138,7 @@ export default {
 
                 this.fileList = temp_record.body.summaryDetailVOs;
 
-                //this.fileList = [{'fileName':'一月份实习报告一月份实习报告.doc','fileId': 11},{'fileName':'一月份实习报告.doc','fileId': 12},{'fileName':'一月份实习报告.doc','fileId': 13}];
+                //this.fileList = [{'fileName':'一月份实习报告.doc','fileId': 11},{'fileName':'二月份实习报告.doc','fileId': 12},{'fileName':'三月份实习报告.doc','fileId': 13}];
                 if(this.fileList){
                       const files_data = [];
                         _.each(this.fileList,(fileInfo,index)=>{

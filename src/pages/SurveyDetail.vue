@@ -94,7 +94,8 @@ export default {
       fileListData: [],
       showFlag: false,
       condition:{},
-      fileShowFlag: true
+      fileShowFlag: true,
+      id:null
     };
   },
   methods: {
@@ -105,12 +106,14 @@ export default {
             const formData = new FormData();
             //formData.append('files', file.file);
             
-            //const id = this.$route.query.id;
+            const id = this.$route.query.id;
             const studentNo = this.$route.query.studentNo;
             const identityId = Util.getIdentityId(this);
             var surveyInfo1 = {};
 
-            //surveyInfo1.surveryId = id;
+            if(id){
+              surveyInfo1.surveryId = id;
+            }
             surveyInfo1.teacherNo = identityId;
             //surveyInfo1.studentNos = this.condition.student_Nos;
             surveyInfo1.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Nos;
@@ -145,12 +148,14 @@ export default {
             const formData = new FormData();
             formData.append('files', file.file);
             
-            const id = this.$route.query.id;
+            //const id = this.survey.surveryId;
             const studentNo = this.$route.query.studentNo;
             const identityId = Util.getIdentityId(this);
             var surveyInfo = {};
 
-            surveyInfo.surveryId = id;
+            if(this.id){
+              surveyInfo.surveryId = this.id;
+            }
             surveyInfo.teacherNo = identityId;
             //surveyInfo1.studentNos = this.condition.student_Nos;
             surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: studentNo;
@@ -164,6 +169,8 @@ export default {
             formData.append('survey', surveyInfoStr);
             //return await self.$http.post(`intern/student/intern/survey/create`,formData);
             temp_record = await this.$http.post(`intern/student/intern/survey/create`,formData);
+            this.id = temp_record.body.surveryId;
+
             if(temp_record.body){
                   ConfirmApi.show(this,{
                       title: '',
@@ -242,39 +249,39 @@ export default {
 
                     const id = this.$route.query.id;
                     if(id){
-                      const url = `intern/student/intern/survey/detail?surveryId=`+id;  
-                      const list = await this.$http.get(url);
-                      if(list.body){
-                          list.body.surveryTimeStr = list.body.surveryTime?list.body.surveryTime.substring(0,16):"";
-                          list.body.location = list.body.location?list.body.location:"";
-                          list.body.enterpriseName = list.body.enterpriseName?list.body.enterpriseName:"";
-                          list.body.surveyComments = list.body.surveyComments?list.body.surveyComments:"";
-                          list.body.studentNo = list.body.studentNo?list.body.studentNo:"";
-                          //list.body.student_Nos = list.body.student_Nos?list.body.student_Nos:"";
-                          list.body.studentName = list.body.studentName?list.body.studentName:"";
-                          //list.body.student_Names = list.body.student_Names?list.body.student_Names:"";
-                          this.survey = list.body;
+                          const url = `intern/student/intern/survey/detail?surveryId=`+id;  
+                          const list = await this.$http.get(url);
+                          if(list.body){
+                              list.body.surveryTimeStr = list.body.surveryTime?list.body.surveryTime.substring(0,16):"";
+                              list.body.location = list.body.location?list.body.location:"";
+                              list.body.enterpriseName = list.body.enterpriseName?list.body.enterpriseName:"";
+                              list.body.surveyComments = list.body.surveyComments?list.body.surveyComments:"";
+                              list.body.studentNo = list.body.studentNo?list.body.studentNo:"";
+                              //list.body.student_Nos = list.body.student_Nos?list.body.student_Nos:"";
+                              list.body.studentName = list.body.studentName?list.body.studentName:"";
+                              //list.body.student_Names = list.body.student_Names?list.body.student_Names:"";
+                              this.survey = list.body;
 
-                          this.fileList = list.body.surveyDetailVOs;
+                              this.fileList = list.body.surveyDetailVOs;
 
-                           //this.fileList = [{'fileName':'走访报告1.doc','fileId': 11},{'fileName':'走访报告2.doc','fileId': 12}}];
-                          if(this.fileList){
-                              const files_data = [];
-                              _.each(this.fileList,(fileInfo,index)=>{
-                                  const _file = {};
-                                  _file["id"] = fileInfo.surveryDetailId;
-                                  _file["title"] = fileInfo.documentName;
-                                  _file["url"] = Vue.http.options.root+'/intern/student/intern/survey/detail/download?surveyDetailId=' + _file.id;
-                                  files_data.push(_file);
-                              });
-                              this.fileListData = files_data;
-                          }else{
-                              this.fileShowFlag = false;
+                              //this.fileList = [{'fileName':'走访报告1.doc','fileId': 11},{'fileName':'走访报告2.doc','fileId': 12}}];
+                              if(this.fileList){
+                                  const files_data = [];
+                                  _.each(this.fileList,(fileInfo,index)=>{
+                                      const _file = {};
+                                      _file["id"] = fileInfo.surveryDetailId;
+                                      _file["title"] = fileInfo.documentName;
+                                      _file["url"] = Vue.http.options.root+'/intern/student/intern/survey/detail/download?surveyDetailId=' + _file.id;
+                                      files_data.push(_file);
+                                  });
+                                  this.fileListData = files_data;
+                              }else{
+                                  this.fileShowFlag = false;
+                              }
+
+                              console.log(this.survey)
+                              delete this.survey["surveryTime"];
                           }
-
-                          console.log(this.survey)
-                          delete this.survey["surveryTime"];
-                      }
                     }
   },
   
