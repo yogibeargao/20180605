@@ -160,7 +160,7 @@ export default {
             }
             surveyInfo.teacherNo = identityId;
             surveyInfo.studentNos = this.condition.student_Nos;
-            surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Noss;
+            surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Nos;
             surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
             surveyInfo.location = this.survey.location;
             surveyInfo.enterpriseName = this.survey.enterpriseName;
