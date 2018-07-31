@@ -156,22 +156,25 @@ export default {
             var surveyInfo = {};
 
             if(this.id){
-              surveyInfo.surveryId = this.id;
-            }
-            surveyInfo.teacherNo = identityId;
-            surveyInfo.studentNos = this.condition.student_Nos;
-            //surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Nos;
-            surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
-            surveyInfo.location = this.survey.location;
-            surveyInfo.enterpriseName = this.survey.enterpriseName;
-            surveyInfo.surveyComments = this.survey.surveyComments;
+                formData.append('surveryId', this.id);
+                temp_record = await this.$http.post(`intern/student/intern/survey/upload`,formData);
+            }else{
+                  surveyInfo.teacherNo = identityId;
+                  surveyInfo.studentNos = this.condition.student_Nos;
+                  //surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Nos;
+                  surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
+                  surveyInfo.location = this.survey.location;
+                  surveyInfo.enterpriseName = this.survey.enterpriseName;
+                  surveyInfo.surveyComments = this.survey.surveyComments;
 
-            var surveyInfoStr = JSON.stringify(surveyInfo); // 将jsobObject转换为json字符串
-          
-            formData.append('survey', surveyInfoStr);
-            //return await self.$http.post(`intern/student/intern/survey/create`,formData);
-            temp_record = await this.$http.post(`intern/student/intern/survey/create`,formData);
-            this.id = temp_record.body.surveryId;
+                  var surveyInfoStr = JSON.stringify(surveyInfo); // 将jsobObject转换为json字符串
+                
+                  formData.append('survey', surveyInfoStr);
+                  //return await self.$http.post(`intern/student/intern/survey/create`,formData);
+                  temp_record = await this.$http.post(`intern/student/intern/survey/create`,formData);
+                  this.id = temp_record.body.surveryId;
+            }
+           
 
             if(temp_record.body){
                   ConfirmApi.show(this,{
