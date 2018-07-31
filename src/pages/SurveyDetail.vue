@@ -115,7 +115,7 @@ export default {
             }
             surveyInfo1.teacherNo = identityId;
             surveyInfo1.studentNos = this.condition.student_Nos;
-            surveyInfo1.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Nos;
+            //surveyInfo1.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Nos;
             surveyInfo1.surveryTime = this.survey.surveryTimeStr+":00";
             surveyInfo1.location = this.survey.location;
             surveyInfo1.enterpriseName = this.survey.enterpriseName;
@@ -160,7 +160,7 @@ export default {
             }
             surveyInfo.teacherNo = identityId;
             surveyInfo.studentNos = this.condition.student_Nos;
-            surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Nos;
+            //surveyInfo.studentNo = this.survey.studentNo ? this.survey.studentNo: this.condition.student_Nos;
             surveyInfo.surveryTime = this.survey.surveryTimeStr+":00";
             surveyInfo.location = this.survey.location;
             surveyInfo.enterpriseName = this.survey.enterpriseName;
