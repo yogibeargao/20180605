@@ -29,7 +29,7 @@
                   <span>{{file.name}}</span> -
                   <span>{{file.size | formatSize}}</span> -
                   <span v-if="file.error">{{file.error}}</span>
-                  <span v-else-if="file.success">上传成功<br/>走访记录提交成功!</span>
+                  <span v-else-if="file.success">上传成功</span>
                   <span v-else-if="file.active">active</span>
                   <span v-else-if="file.active">active</span>
                   <span v-else></span>
@@ -39,6 +39,7 @@
                 <file-upload
                   class="btn btn-primary"
                   :multiple="true"
+                  :maximum="10"
                   :size="1024 * 1024 * 10"
                   v-model="files"
                   name="file" 
@@ -94,7 +95,8 @@ export default {
       showFlag: false,
       condition:{},
       fileShowFlag: true,
-      id:null
+      id:null,
+      count:0
     };
   },
   methods: {
@@ -145,6 +147,8 @@ export default {
       },
       async customAction(file, component){
 
+            this.count++;
+
             let temp_record = null;
             const self = this;
             const formData = new FormData();
@@ -156,8 +160,29 @@ export default {
             var surveyInfo = {};
 
             if(this.id){
+              
                 formData.append('surveryId', this.id);
-                temp_record = await this.$http.post(`intern/student/intern/survey/upload`,formData);
+
+                if(this.count === this.files.length){
+                    temp_record = await self.$http.post(`intern/student/intern/survey/upload`,formData);
+
+                     if(temp_record.body){
+                            ConfirmApi.show(this,{
+                                title: '',
+                                content: '操作成功',
+                            });
+                      }else{
+                            ConfirmApi.show(this,{
+                                title: '',
+                                content: '操作失败',
+                            });
+                      }
+                      this.$router.back();
+
+                }else{
+                    return await self.$http.post(`intern/student/intern/survey/upload`,formData);
+                }
+              
             }else{
                   surveyInfo.teacherNo = identityId;
                   surveyInfo.studentNos = this.condition.student_Nos;
@@ -171,23 +196,9 @@ export default {
                 
                   formData.append('survey', surveyInfoStr);
                   //return await self.$http.post(`intern/student/intern/survey/create`,formData);
-                  temp_record = await this.$http.post(`intern/student/intern/survey/create`,formData);
+                  temp_record = await self.$http.post(`intern/student/intern/survey/create`,formData);
                   this.id = temp_record.body.surveryId;
             }
-           
-
-            if(temp_record.body){
-                  ConfirmApi.show(this,{
-                      title: '',
-                      content: '操作成功',
-                    });
-            }else{
-                    ConfirmApi.show(this,{
-                      title: '',
-                      content: '操作失败',
-                    });
-            }
-            this.$router.back();
   
     },
    inputFilter(newFile, oldFile, prevent) {
@@ -245,6 +256,7 @@ export default {
                   }
   },
   async mounted(){
+
                    if(this.$route.query.studentNo){
                       const url = "user/detail?identityId="+this.$route.query.studentNo;
                       const signList = await this.$http.get(url);
