@@ -8,7 +8,7 @@
 
                   <r-textarea title='实习描述:' :readonly="isreadonly" placeholder="请在这里输入实习描述" :model="this.record" value="internDescription" :height="200" :max="200"></r-textarea>
               </r-card>
-               <r-card   title="实习记录评价：">
+               <r-card   title="实习记录评价："  v-if="isCompany">
                   <r-textarea title='实习评价:'  :readonly="isreadonly"  :model="this.record" value="appraisalContent"  :autoSize="true" :rows="10" :max="200"></r-textarea>
               </r-card>
       </r-body>
