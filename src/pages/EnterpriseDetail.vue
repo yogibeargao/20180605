@@ -115,7 +115,7 @@ export default {
                     });
                   }else{
 
-                      const id = this.$route.query.id+"";
+                      const id = this.$route.query.id;
                       const studentNo = this.$route.query.studentNo;
 
                       const identityId = Util.getIdentityId(this);
@@ -133,35 +133,33 @@ export default {
                       }
                       
                       temp_record = await this.$http.post(url,param);
+
+                      if(temp_record.body){
+                          this.toastText="操作成功";
+                          this.type = "success";
+                          this.showFlag=true;
+                          this.$router.back()
+                      }else{
+                          this.showFlag=true;
+                      }
                       
                 }
-      
 
-               
-                  if(temp_record.body){
-                      this.toastText="操作成功";
-                      this.type = "success";
-                      this.showFlag=true;
-                      this.$router.back()
-                  }else{
-                      this.showFlag=true;
-                  }
+                if(!Util.isStudent(this)){
+                      const id = this.$route.query.id+"";
+                        const recordList = sessionStorage.getItem('recordList');
+                        if(recordList&&!this.signStat){
+                                const newRecordList = [];
+                                _.each(JSON.parse(recordList),(record)=>{
+                                    const link_id = record[2].link.split('=')[1];
+                                    if(link_id!=id){
+                                        newRecordList.push(record)
+                                    }
+                                });
+                                sessionStorage.setItem('recordList',JSON.stringify(newRecordList)); 
 
-                   if(!Util.isStudent(this)){
-                         const id = this.$route.query.id+"";
-                            const recordList = sessionStorage.getItem('recordList');
-                            if(recordList&&!this.signStat){
-                                    const newRecordList = [];
-                                    _.each(JSON.parse(recordList),(record)=>{
-                                        const link_id = record[2].link.split('=')[1];
-                                        if(link_id!=id){
-                                            newRecordList.push(record)
-                                        }
-                                    });
-                                    sessionStorage.setItem('recordList',JSON.stringify(newRecordList)); 
-
-                            }
-                   }
+                        }
+                }
     }
   },
   computed:{
