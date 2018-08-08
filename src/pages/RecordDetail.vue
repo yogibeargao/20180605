@@ -14,7 +14,7 @@
       </r-body>
               <r-toast :model="this" value="showFlag" :text="toastText" :type='type'/>
 
-              <r-tab-bar v-if="isCompany">
+              <r-tab-bar v-if="isCompany || isStudent">
                 <r-cell type="row" :vertical="true" v-if="!isreadonly">
                               <r-cell >
                                   <r-box>
